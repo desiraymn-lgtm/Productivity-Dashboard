@@ -1,10 +1,23 @@
 # The Ledger — Personal Productivity Dashboard
 
-A single-page daily dashboard: tasks with priority/due dates, a habit tracker with
-streaks, and quick notes. Built with Next.js 14 (App Router, Server Actions) and
-Neon Postgres. No client-side state library and no API routes — reads happen in a
-Server Component, writes happen through Server Actions, and the whole page revalidates
-after every action.
+A multi-page personal dashboard: Today (tasks, habits, notes), Daily Tracker, Books,
+5-Year Plan, Vision Board, TikTok Plan, Business, and Budget — all linked from one
+nav bar. Built with Next.js 14 (App Router, Server Actions) and Neon Postgres.
+No client-side state library and no API routes — reads happen in a Server Component,
+writes happen through Server Actions, and each page revalidates after every action.
+
+## Pages
+
+- **Today** (`/`) — tasks, habit streaks, notes, day-at-a-glance sidebar
+- **Daily Tracker** (`/daily`) — same habits data, full checklist view (seeded with
+  Bible reading, Book reading, Gym, Vitamins)
+- **Books** (`/books`) — cover, author, status, start/end dates, notes (seeded with
+  your reading list)
+- **5-Year Plan** (`/five-year-plan`) — editable vision + Year 1–5 sections
+- **Vision Board** (`/vision-board`) — mixed text and image cards
+- **TikTok Plan** (`/tiktok`) — idea bank grouped by content pillar
+- **Business** (`/business`) — acquisition prospects + criteria notes
+- **Budget** (`/budget`) — biweekly paycheck entries (placeholder columns for now)
 
 ## Stack
 
@@ -28,9 +41,17 @@ npm install
 npm run db:init
 ```
 
-`db:init` runs `db/schema.sql` against `DATABASE_URL` and creates the `tasks`,
-`habits`, `habit_logs`, and `notes` tables (safe to re-run — everything is
-`create table if not exists`).
+`db:init` runs `db/schema.sql` against `DATABASE_URL` and creates every table
+(tasks, habits, habit_logs, notes, books, plan_sections, vision_items,
+tiktok_ideas, business_prospects, business_notes, budget_entries), plus seeds
+the daily tracker items and your book list. Safe to re-run for the table
+creation (`create table if not exists`) — the seed inserts use
+`on conflict do nothing` for habits, but re-running will duplicate the seeded
+books since there's no unique constraint on title. Run it once.
+
+You can also just paste the contents of `db/schema.sql` into Neon's browser
+SQL Editor (console.neon.tech → your project → SQL Editor) and click Run —
+no terminal needed.
 
 ## 3. Run it locally
 

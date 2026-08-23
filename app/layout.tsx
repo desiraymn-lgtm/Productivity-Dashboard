@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Roboto_Slab, Inter, JetBrains_Mono } from 'next/font/google';
+import TopNav from '@/components/TopNav';
 import './globals.css';
 
 const display = Roboto_Slab({
@@ -28,7 +29,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${display.variable} ${body.variable} ${mono.variable}`}>{children}</body>
+      <body className={`${display.variable} ${body.variable} ${mono.variable}`}>
+        <TopNav />
+        {children}
+      </body>
     </html>
   );
 }
