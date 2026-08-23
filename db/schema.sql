@@ -169,6 +169,49 @@ create table if not exists tiktok_ideas (
   created_at timestamptz not null default now()
 );
 
+create table if not exists tiktok_vision (
+  id serial primary key,
+  content text not null default '',
+  updated_at timestamptz not null default now()
+);
+
+insert into tiktok_vision (id, content) values (1, '') on conflict (id) do nothing;
+
+update tiktok_vision set content = $$## Goal
+
+Build an account documenting the real journey (career, budgeting, business search, moving) — content as a byproduct of the plan, not a competing project. Any income is upside, never a planning number.
+
+## Starting Pillars (top 3 — expand later, not all at once)
+
+- **Life Journey Series** ("26 & In Progress") — the throughline: budgeting, PMP, business search, moving out, real numbers and real setbacks.
+- **Side Plot Saturdays** — your strongest concept; one new experience weekly (fencing, salsa, volunteering, tennis lessons, etc.) with a consistent, repeatable hook.
+- **Style/Lifestyle Pillar** — whichever of your outfit/home series feels easiest to sustain (office fits or the apartment-furnishing series pairs naturally with your Dec 1 move).
+
+Hold the rest of your pillar list (beauty, "brown coach," bag content) in reserve — add one at a time only once the first three feel sustainable, not draining.
+
+## Content Approach
+
+- Document, don't perform: "I'm 26, working a 9-5, trying to buy a business — here's what I'm learning" beats a polished pitch.
+- Consistent recurring hook per series builds recognition — you already have good series names.
+- Let the substance (PMP, business search, disciplined budget) lead — it is your realest differentiator from the broader lifestyle-account pool.
+
+## Action Items
+
+- [ ] Pick your top 3 pillars from your notes this week
+- [ ] Post 2-3x/week to start (batch-filmed on weekends, per your schedule)
+- [ ] Use the apartment move (Dec 1) as a natural content arc for the furnishing series
+- [ ] Reassess after 60-90 days: which pillar is resonating, keep/cut/expand from there
+- [ ] Treat all figures from any "income projection" as fantasy until you have 90 days of real data — do not budget around it
+
+## KPIs
+
+| Metric | Target |
+|---|---|
+| Posting cadence | 2-3x/week (Months 1-3) |
+| Active pillars | 3 (Months 1-3), expand only after 90-day review |
+| Review checkpoint | Day 90 |$$
+where id = 1;
+
 -- ---------- Business acquisition tracker ----------
 
 create table if not exists business_prospects (
@@ -233,6 +276,31 @@ create table if not exists rewards (
   created_at timestamptz not null default now()
 );
 
+alter table rewards add column if not exists image_url text;
+
+-- ---------- Goals ----------
+
+create table if not exists goals (
+  id serial primary key,
+  title text not null,
+  notes text,
+  status text not null default 'active' check (status in ('active', 'achieved')),
+  achieved_at timestamptz,
+  created_at timestamptz not null default now()
+);
+
+-- ---------- Travel ----------
+
+create table if not exists travel_spots (
+  id serial primary key,
+  place text not null,
+  status text not null default 'want' check (status in ('want', 'been')),
+  notes text,
+  image_url text,
+  visited_date date,
+  created_at timestamptz not null default now()
+);
+
 -- ---------- Seed data ----------
 
 insert into habits (name) values
@@ -242,17 +310,29 @@ insert into habits (name) values
   ('Vitamins')
 on conflict do nothing;
 
-insert into books (title, author, status) values
-  ('Rich AF', 'Vivian Tu', 'want'),
-  ('Girls That Invest', 'Simran Kaur', 'want'),
-  ('The Millionaire Next Door', null, 'want'),
-  ('The Four Agreements', null, 'want'),
-  ('Atomic Habits', null, 'want'),
-  ('As a Man Thinketh', null, 'want'),
-  ('A New Way to Love Your Neighbor', 'Jada Edwards', 'want'),
-  ('The Mountain Is You', null, 'want'),
-  ('Ego Is the Enemy', null, 'want')
+insert into books (title, author, cover_url, status) values
+  ('Rich AF', 'Vivian Tu', 'https://covers.openlibrary.org/b/isbn/9780593714911-L.jpg', 'want'),
+  ('Girls That Invest', 'Simran Kaur', 'https://covers.openlibrary.org/b/isbn/9781119893783-L.jpg', 'want'),
+  ('The Millionaire Next Door', null, 'https://covers.openlibrary.org/b/isbn/9780671015206-L.jpg', 'want'),
+  ('The Four Agreements', null, 'https://covers.openlibrary.org/b/isbn/9781878424310-L.jpg', 'want'),
+  ('Atomic Habits', null, 'https://covers.openlibrary.org/b/isbn/9780735211292-L.jpg', 'want'),
+  ('As a Man Thinketh', null, 'https://covers.openlibrary.org/b/isbn/9781585426386-L.jpg', 'want'),
+  ('A New Way to Love Your Neighbor', 'Jada Edwards', 'https://covers.openlibrary.org/b/isbn/9781087789187-L.jpg', 'want'),
+  ('The Mountain Is You', null, 'https://covers.openlibrary.org/b/isbn/9781949759228-L.jpg', 'want'),
+  ('Ego Is the Enemy', null, 'https://covers.openlibrary.org/b/isbn/9781591847816-L.jpg', 'want')
 on conflict do nothing;
+
+-- Backfill cover_url for rows already seeded on an existing database
+-- (the insert above only helps on a brand-new database).
+update books set cover_url = 'https://covers.openlibrary.org/b/isbn/9780593714911-L.jpg' where title = 'Rich AF' and cover_url is null;
+update books set cover_url = 'https://covers.openlibrary.org/b/isbn/9781119893783-L.jpg' where title = 'Girls That Invest' and cover_url is null;
+update books set cover_url = 'https://covers.openlibrary.org/b/isbn/9780671015206-L.jpg' where title = 'The Millionaire Next Door' and cover_url is null;
+update books set cover_url = 'https://covers.openlibrary.org/b/isbn/9781878424310-L.jpg' where title = 'The Four Agreements' and cover_url is null;
+update books set cover_url = 'https://covers.openlibrary.org/b/isbn/9780735211292-L.jpg' where title = 'Atomic Habits' and cover_url is null;
+update books set cover_url = 'https://covers.openlibrary.org/b/isbn/9781585426386-L.jpg' where title = 'As a Man Thinketh' and cover_url is null;
+update books set cover_url = 'https://covers.openlibrary.org/b/isbn/9781087789187-L.jpg' where title = 'A New Way to Love Your Neighbor' and cover_url is null;
+update books set cover_url = 'https://covers.openlibrary.org/b/isbn/9781949759228-L.jpg' where title = 'The Mountain Is You' and cover_url is null;
+update books set cover_url = 'https://covers.openlibrary.org/b/isbn/9781591847816-L.jpg' where title = 'Ego Is the Enemy' and cover_url is null;
 
 insert into accounts (name, category) values
   ('Chase', 'checking'),

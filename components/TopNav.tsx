@@ -9,6 +9,8 @@ const LINKS = [
   { href: '/books', label: 'Books' },
   { href: '/five-year-plan', label: '5-Year Plan' },
   { href: '/vision-board', label: 'Vision Board' },
+  { href: '/goals', label: 'Goals' },
+  { href: '/travel', label: 'Travel' },
   { href: '/tiktok', label: 'TikTok Plan' },
   { href: '/business', label: 'Business' },
   { href: '/budget', label: 'Budget' },

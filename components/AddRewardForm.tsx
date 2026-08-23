@@ -18,6 +18,7 @@ export default function AddRewardForm() {
       <input name="title" placeholder="Reward (e.g. New bag, spa day, trip)" aria-label="Reward" required />
       <input type="number" step="0.01" name="cost" placeholder="Cost (optional)" aria-label="Cost" />
       <input name="goalNote" placeholder="For hitting… (which goal)" aria-label="Tied to goal" />
+      <input name="imageUrl" placeholder="Image URL (optional)" aria-label="Image URL" />
       <textarea name="description" placeholder="Details (optional)" aria-label="Description" />
       <button type="submit">Add reward</button>
     </form>

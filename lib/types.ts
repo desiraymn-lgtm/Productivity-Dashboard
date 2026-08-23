@@ -75,6 +75,12 @@ export type TiktokIdea = {
   created_at: string;
 };
 
+export type TiktokVision = {
+  id: number;
+  content: string;
+  updated_at: string;
+};
+
 export type ProspectStage = 'researching' | 'contacted' | 'reviewing' | 'passed';
 
 export type BusinessProspect = {
@@ -143,6 +149,30 @@ export type Reward = {
   description: string | null;
   cost: string | null;
   goal_note: string | null;
+  image_url: string | null;
   status: RewardStatus;
+  created_at: string;
+};
+
+export type GoalStatus = 'active' | 'achieved';
+
+export type Goal = {
+  id: number;
+  title: string;
+  notes: string | null;
+  status: GoalStatus;
+  achieved_at: string | null;
+  created_at: string;
+};
+
+export type TravelStatus = 'want' | 'been';
+
+export type TravelSpot = {
+  id: number;
+  place: string;
+  status: TravelStatus;
+  notes: string | null;
+  image_url: string | null;
+  visited_date: string | null;
   created_at: string;
 };

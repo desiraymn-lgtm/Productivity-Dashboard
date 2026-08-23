@@ -3,7 +3,7 @@
 import { useRef } from 'react';
 import { addTiktokIdea } from '@/app/actions';
 
-const PILLARS = ['Life Journey', 'Career', 'Budgeting', 'Fashion', 'New Experience'];
+const PILLARS = ['Life Journey Series', 'Side Plot Saturdays', 'Style/Lifestyle'];
 
 export default function AddTiktokForm() {
   const formRef = useRef<HTMLFormElement>(null);

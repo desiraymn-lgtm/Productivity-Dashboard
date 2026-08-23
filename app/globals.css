@@ -574,6 +574,12 @@ select {
   color: var(--ivory);
 }
 
+/* Books: want/reading/finished all read the same color — only the label differs */
+.book-status {
+  background: var(--cream);
+  color: var(--caramel);
+}
+
 .book-form {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -1006,6 +1012,173 @@ select {
   flex: 0 0 auto;
 }
 
+/* ---------- Daily view switch + week/month views ---------- */
+
+.view-switch {
+  display: inline-flex;
+  gap: 4px;
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 4px;
+  margin-bottom: 20px;
+}
+
+.view-switch-btn {
+  border: none;
+  background: transparent;
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 13px;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.view-switch-btn.is-active {
+  background: var(--burgundy);
+  color: var(--ivory);
+}
+
+.week-grid-wrap {
+  overflow-x: auto;
+}
+
+.week-grid {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.week-grid th,
+.week-grid td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid var(--rule);
+  font-size: 12px;
+}
+
+.week-grid th {
+  color: var(--muted);
+  font-weight: 500;
+  background: var(--panel-hover);
+}
+
+.week-grid th.is-today {
+  color: var(--burgundy);
+  font-weight: 700;
+}
+
+.week-grid-habit-col {
+  text-align: left !important;
+  font-size: 13px !important;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.week-cell {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--rule);
+  background: var(--ivory);
+  cursor: pointer;
+  color: var(--sage);
+  font-size: 14px;
+}
+
+.week-cell.is-checked {
+  background: var(--sage);
+  border-color: var(--sage);
+  color: var(--ivory);
+}
+
+.week-cell.is-today {
+  border-color: var(--brass);
+}
+
+.month-view {
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.month-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 16px;
+  font-family: var(--font-display), serif;
+  font-size: 16px;
+  color: var(--burgundy);
+}
+
+.month-nav button {
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+.month-nav button:hover {
+  background: var(--panel-hover);
+  color: var(--text);
+}
+
+.month-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.month-grid-labels {
+  margin-bottom: 6px;
+}
+
+.month-grid-labels span {
+  text-align: center;
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.month-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-size: 12px;
+  font-family: var(--font-mono), monospace;
+  color: var(--text);
+  background: color-mix(in srgb, var(--sage) calc(var(--pct, 0) * 100%), var(--ivory));
+  border: 1px solid var(--rule);
+}
+
+.month-cell.is-empty {
+  border: none;
+  background: transparent;
+}
+
+.month-cell.is-today {
+  border-color: var(--burgundy);
+  border-width: 2px;
+}
+
+.month-legend {
+  margin: 12px 0 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+
 /* ---------- Vision board ---------- */
 
 .vision-grid {
@@ -1165,6 +1338,177 @@ select {
   background: var(--cream);
   color: var(--caramel);
   font-weight: 600;
+}
+
+/* ---------- Shared section titles (Goals, Rewards) ---------- */
+
+.section-title {
+  font-family: var(--font-display), serif;
+  font-size: 16px;
+  color: var(--burgundy);
+  margin: 28px 0 12px;
+}
+
+.section-title:first-child {
+  margin-top: 0;
+}
+
+/* ---------- Rewards ---------- */
+
+.reward-photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  background: var(--cream);
+}
+
+.reward-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.15s ease;
+}
+
+.reward-photo:hover img {
+  transform: scale(1.04);
+}
+
+.rewards-total {
+  margin-top: 28px;
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.rewards-total-amount {
+  font-family: var(--font-mono), monospace;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--burgundy);
+}
+
+/* ---------- Travel ---------- */
+
+.travel-stats {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.travel-stat {
+  flex: 1;
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 18px 20px;
+  text-align: center;
+}
+
+.travel-stat-number {
+  display: block;
+  font-family: var(--font-display), serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--burgundy);
+}
+
+.travel-stat-label {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: 4px;
+}
+
+.travel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.travel-card {
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.travel-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(59, 20, 19, 0.12);
+}
+
+.travel-card-photo {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.travel-card-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.travel-card-placeholder {
+  font-family: var(--font-display), serif;
+  font-size: 14px;
+  color: var(--caramel);
+  text-align: center;
+  padding: 10px;
+}
+
+.travel-card-badge {
+  position: absolute;
+  top: 10px;
+  right: -30px;
+  transform: rotate(35deg);
+  background: var(--burgundy);
+  color: var(--ivory);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 4px 34px;
+}
+
+.travel-card.is-want .travel-card-badge {
+  background: var(--caramel);
+}
+
+.travel-card-body {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.travel-card-name {
+  font-family: var(--font-display), serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--burgundy);
+}
+
+.travel-card-meta {
+  font-size: 11px;
+  color: var(--muted);
+  font-family: var(--font-mono), monospace;
 }
 
 /* ---------- Budget ---------- */

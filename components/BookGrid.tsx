@@ -35,7 +35,7 @@ function BookCard({ book }: { book: Book }) {
         )}
       </div>
       <div className="book-info">
-        <span className={`status-pill status-${book.status}`}>{STATUS_LABEL[book.status]}</span>
+        <span className="status-pill book-status">{STATUS_LABEL[book.status]}</span>
         <span className="book-title">{book.title}</span>
         {book.author && <span className="book-author">{book.author}</span>}
         {(book.start_date || book.end_date) && (

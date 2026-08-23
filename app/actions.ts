@@ -63,6 +63,21 @@ export async function toggleHabitToday(habitId: number, isDoneToday: boolean) {
   revalidatePath('/daily');
 }
 
+export async function toggleHabitLogDate(habitId: number, dateStr: string, isDoneOnDate: boolean) {
+  if (isDoneOnDate) {
+    await sql`delete from habit_logs where habit_id = ${habitId} and log_date = ${dateStr}`;
+  } else {
+    await sql`
+      insert into habit_logs (habit_id, log_date)
+      values (${habitId}, ${dateStr})
+      on conflict (habit_id, log_date) do nothing
+    `;
+  }
+
+  revalidatePath('/');
+  revalidatePath('/daily');
+}
+
 export async function deleteHabit(id: number) {
   await sql`delete from habits where id = ${id}`;
   revalidatePath('/');
@@ -148,6 +163,12 @@ export async function deleteVisionItem(id: number) {
 }
 
 // ---------- TikTok plan ----------
+
+export async function updateTiktokVision(formData: FormData) {
+  const content = String(formData.get('content') || '');
+  await sql`update tiktok_vision set content = ${content}, updated_at = now() where id = 1`;
+  revalidatePath('/tiktok');
+}
 
 export async function addTiktokIdea(formData: FormData) {
   const pillar = String(formData.get('pillar') || '').trim();
@@ -299,10 +320,11 @@ export async function addReward(formData: FormData) {
   const description = optional(formData, 'description');
   const cost = formData.get('cost') ? numeric(formData, 'cost') : null;
   const goalNote = optional(formData, 'goalNote');
+  const imageUrl = optional(formData, 'imageUrl');
 
   await sql`
-    insert into rewards (title, description, cost, goal_note)
-    values (${title}, ${description}, ${cost}, ${goalNote})
+    insert into rewards (title, description, cost, goal_note, image_url)
+    values (${title}, ${description}, ${cost}, ${goalNote}, ${imageUrl})
   `;
   revalidatePath('/rewards');
 }
@@ -316,6 +338,57 @@ export async function toggleRewardStatus(id: number, currentStatus: string) {
 export async function deleteReward(id: number) {
   await sql`delete from rewards where id = ${id}`;
   revalidatePath('/rewards');
+}
+
+// ---------- Goals ----------
+
+export async function addGoal(formData: FormData) {
+  const title = String(formData.get('title') || '').trim();
+  if (!title) return;
+  const notes = optional(formData, 'notes');
+
+  await sql`insert into goals (title, notes) values (${title}, ${notes})`;
+  revalidatePath('/goals');
+}
+
+export async function toggleGoalStatus(id: number, currentStatus: string) {
+  const next = currentStatus === 'achieved' ? 'active' : 'achieved';
+  const achievedAt = next === 'achieved' ? new Date().toISOString() : null;
+  await sql`update goals set status = ${next}, achieved_at = ${achievedAt} where id = ${id}`;
+  revalidatePath('/goals');
+}
+
+export async function deleteGoal(id: number) {
+  await sql`delete from goals where id = ${id}`;
+  revalidatePath('/goals');
+}
+
+// ---------- Travel ----------
+
+export async function addTravelSpot(formData: FormData) {
+  const place = String(formData.get('place') || '').trim();
+  if (!place) return;
+  const status = String(formData.get('status') || 'want');
+  const notes = optional(formData, 'notes');
+  const imageUrl = optional(formData, 'imageUrl');
+
+  await sql`
+    insert into travel_spots (place, status, notes, image_url)
+    values (${place}, ${status}, ${notes}, ${imageUrl})
+  `;
+  revalidatePath('/travel');
+}
+
+export async function toggleTravelStatus(id: number, currentStatus: string) {
+  const next = currentStatus === 'been' ? 'want' : 'been';
+  const visitedDate = next === 'been' ? todayStr() : null;
+  await sql`update travel_spots set status = ${next}, visited_date = ${visitedDate} where id = ${id}`;
+  revalidatePath('/travel');
+}
+
+export async function deleteTravelSpot(id: number) {
+  await sql`delete from travel_spots where id = ${id}`;
+  revalidatePath('/travel');
 }
 
 // ---------- Shared helpers ----------

@@ -4,12 +4,11 @@ import type { Reward } from '@/lib/types';
 export default function RewardsGrid({ rewards }: { rewards: Reward[] }) {
   const wishlist = rewards.filter((r) => r.status === 'wishlist');
   const earned = rewards.filter((r) => r.status === 'earned');
+  const wishlistTotal = wishlist.reduce((sum, r) => sum + Number(r.cost || 0), 0);
 
   return (
     <>
-      <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 16, color: 'var(--burgundy)', marginBottom: 12 }}>
-        Wishlist
-      </h2>
+      <h2 className="section-title">Wishlist</h2>
       {wishlist.length === 0 && <p className="empty">Nothing on the wishlist yet.</p>}
       <div className="prospect-grid">
         {wishlist.map((reward) => (
@@ -19,9 +18,7 @@ export default function RewardsGrid({ rewards }: { rewards: Reward[] }) {
 
       {earned.length > 0 && (
         <>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 16, color: 'var(--burgundy)', margin: '24px 0 12px' }}>
-            Earned
-          </h2>
+          <h2 className="section-title">Earned</h2>
           <div className="prospect-grid">
             {earned.map((reward) => (
               <RewardCard key={reward.id} reward={reward} />
@@ -29,6 +26,13 @@ export default function RewardsGrid({ rewards }: { rewards: Reward[] }) {
           </div>
         </>
       )}
+
+      <div className="rewards-total">
+        <span>Wishlist total</span>
+        <span className="rewards-total-amount">
+          {wishlistTotal.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
+        </span>
+      </div>
     </>
   );
 }
@@ -39,6 +43,12 @@ function RewardCard({ reward }: { reward: Reward }) {
 
   return (
     <div className="prospect-card">
+      {reward.image_url && (
+        <a href={reward.image_url} target="_blank" rel="noopener noreferrer" className="reward-photo">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={reward.image_url} alt={reward.title} />
+        </a>
+      )}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <span className="prospect-name">{reward.title}</span>
         <form action={deleteWithId}>
