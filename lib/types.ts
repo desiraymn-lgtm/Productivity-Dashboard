@@ -50,6 +50,7 @@ export type PlanSection = {
   id: number;
   section_key: string;
   title: string;
+  subtitle: string | null;
   content: string;
   sort_order: number;
   updated_at: string;

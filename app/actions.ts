@@ -40,6 +40,7 @@ export async function addHabit(formData: FormData) {
 
   await sql`insert into habits (name) values (${name})`;
   revalidatePath('/');
+  revalidatePath('/daily');
 }
 
 export async function toggleHabitToday(habitId: number, isDoneToday: boolean) {
@@ -59,11 +60,13 @@ export async function toggleHabitToday(habitId: number, isDoneToday: boolean) {
   }
 
   revalidatePath('/');
+  revalidatePath('/daily');
 }
 
 export async function deleteHabit(id: number) {
   await sql`delete from habits where id = ${id}`;
   revalidatePath('/');
+  revalidatePath('/daily');
 }
 
 // ---------- Notes ----------

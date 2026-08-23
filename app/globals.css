@@ -665,6 +665,347 @@ select {
   cursor: pointer;
 }
 
+/* ---------- 5-Year Plan: year cards + timeline ---------- */
+
+.plan-year-card {
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 22px;
+  margin-bottom: 20px;
+}
+
+.plan-year-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.plan-year-title-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.plan-year-badge {
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--burgundy);
+  color: var(--ivory);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display), serif;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.plan-year-head h2 {
+  font-family: var(--font-display), serif;
+  font-size: 19px;
+  margin: 0;
+  color: var(--burgundy);
+}
+
+.plan-year-subtitle {
+  display: block;
+  font-size: 12px;
+  font-family: var(--font-mono), monospace;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin-top: 2px;
+}
+
+.plan-edit-toggle {
+  flex: 0 0 auto;
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 12px;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.plan-edit-toggle:hover {
+  background: var(--panel-hover);
+  color: var(--text);
+}
+
+.plan-year-card textarea {
+  width: 100%;
+  background: var(--ivory);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 13px;
+  font-family: var(--font-mono), monospace;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.plan-year-card .save-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.plan-year-card .save-row button {
+  background: var(--caramel);
+  color: var(--ivory);
+  border: none;
+  border-radius: 6px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.plan-timeline {
+  position: relative;
+  padding-left: 24px;
+  margin-top: 8px;
+}
+
+.plan-timeline::before {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--brass), var(--taupe));
+  opacity: 0.5;
+}
+
+.plan-timeline .plan-year-card {
+  position: relative;
+  margin-left: 12px;
+}
+
+/* ---------- Rich text (used by 5-Year Plan sections) ---------- */
+
+.richtext p {
+  margin: 0 0 12px;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.richtext p:last-child {
+  margin-bottom: 0;
+}
+
+.richtext-heading {
+  font-family: var(--font-display), serif;
+  font-size: 15px;
+  color: var(--caramel);
+  margin: 18px 0 8px;
+}
+
+.richtext-heading:first-child {
+  margin-top: 0;
+}
+
+.richtext-bullets,
+.richtext-checklist {
+  list-style: none;
+  margin: 0 0 14px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.richtext-bullets li {
+  font-size: 14px;
+  line-height: 1.5;
+  padding-left: 16px;
+  position: relative;
+}
+
+.richtext-bullets li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--brass);
+}
+
+.richtext-checklist li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.richtext-check {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  border: 1px solid var(--taupe);
+  margin-top: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: var(--sage);
+}
+
+.richtext-checklist li.is-checked .richtext-check {
+  background: var(--sage);
+  border-color: var(--sage);
+  color: var(--ivory);
+}
+
+.richtext-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 8px 0 16px;
+  font-size: 13px;
+}
+
+.richtext-table th,
+.richtext-table td {
+  padding: 8px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--rule);
+}
+
+.richtext-table th {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--panel-hover);
+}
+
+/* ---------- Daily checklist ---------- */
+
+.daily-progress {
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 20px 22px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.daily-progress-ring {
+  flex: 0 0 auto;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: conic-gradient(var(--sage) calc(var(--pct, 0) * 1%), var(--cream) 0);
+}
+
+.daily-progress-ring span {
+  background: var(--panel);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono), monospace;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--burgundy);
+}
+
+.daily-progress-text h2 {
+  font-family: var(--font-display), serif;
+  font-size: 17px;
+  margin: 0 0 4px;
+  color: var(--burgundy);
+}
+
+.daily-progress-text p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.daily-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.daily-row {
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.daily-row.is-done {
+  background: rgba(111, 125, 94, 0.08);
+  border-color: rgba(111, 125, 94, 0.35);
+}
+
+.daily-checkbox {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 2px solid var(--taupe);
+  background: var(--ivory);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--sage);
+}
+
+.daily-checkbox.is-checked {
+  background: var(--sage);
+  border-color: var(--sage);
+  color: var(--ivory);
+}
+
+.daily-row-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.daily-row-name {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.daily-row.is-done .daily-row-name {
+  color: var(--muted);
+}
+
+.daily-row-streak {
+  font-size: 12px;
+  color: var(--muted);
+  font-family: var(--font-mono), monospace;
+}
+
+.daily-row .row-delete {
+  flex: 0 0 auto;
+}
+
 /* ---------- Vision board ---------- */
 
 .vision-grid {

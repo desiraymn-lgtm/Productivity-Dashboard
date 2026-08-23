@@ -1,6 +1,6 @@
 import { sql } from '@/lib/db';
 import { computeStreak } from '@/lib/streaks';
-import HabitTracker from '@/components/HabitTracker';
+import DailyChecklist from '@/components/DailyChecklist';
 import type { Habit, HabitWithStreak } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
@@ -27,9 +27,9 @@ export default async function DailyTrackerPage() {
     <div className="page-wrap">
       <div className="page-head">
         <h1>Daily Tracker</h1>
-        <p>Bible, books, gym, vitamins — whatever you check daily. Same list shown on Today.</p>
+        <p>Bible, book, gym, vitamins — check them off as you go. Resets fresh every day.</p>
       </div>
-      <HabitTracker habits={habitsWithStreak} />
+      <DailyChecklist habits={habitsWithStreak} />
     </div>
   );
 }
