@@ -18,7 +18,7 @@ const statements = schema
   .filter(Boolean);
 
 for (const statement of statements) {
-  await sql.query(statement);
+  await sql(statement);
   console.log('Ran:', statement.split('\n')[0].slice(0, 60) + '...');
 }
 
