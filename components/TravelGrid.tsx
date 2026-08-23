@@ -1,4 +1,5 @@
 import { toggleTravelStatus, deleteTravelSpot } from '@/app/actions';
+import { formatDate } from '@/lib/dates';
 import type { TravelSpot } from '@/lib/types';
 
 export default function TravelGrid({ spots }: { spots: TravelSpot[] }) {
@@ -49,7 +50,11 @@ function TravelCard({ spot }: { spot: TravelSpot }) {
       </div>
       <div className="travel-card-body">
         <span className="travel-card-name">{spot.place}</span>
-        {isBeen && spot.visited_date && <span className="travel-card-meta">Visited {formatDate(spot.visited_date)}</span>}
+        {isBeen && spot.visited_date && (
+          <span className="travel-card-meta">
+            Visited {formatDate(spot.visited_date, { month: 'short', day: 'numeric', year: 'numeric' })}
+          </span>
+        )}
         {spot.notes && <p className="book-notes">{spot.notes}</p>}
         <div className="add-form" style={{ marginTop: 8 }}>
           <form action={toggleWithId}>
@@ -66,8 +71,4 @@ function TravelCard({ spot }: { spot: TravelSpot }) {
       </div>
     </div>
   );
-}
-
-function formatDate(iso: string): string {
-  return new Date(`${iso}T00:00:00`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }

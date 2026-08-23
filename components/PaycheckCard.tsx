@@ -2,6 +2,7 @@
 
 import { useRef } from 'react';
 import { addPaycheck, deletePaycheck } from '@/app/actions';
+import { formatDate } from '@/lib/dates';
 import type { Paycheck } from '@/lib/types';
 
 export default function PaycheckCard({ paychecks }: { paychecks: Paycheck[] }) {
@@ -48,8 +49,4 @@ export default function PaycheckCard({ paychecks }: { paychecks: Paycheck[] }) {
       </ul>
     </section>
   );
-}
-
-function formatDate(iso: string): string {
-  return new Date(`${iso}T00:00:00`).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 }

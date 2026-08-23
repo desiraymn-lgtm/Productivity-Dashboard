@@ -1,5 +1,6 @@
 import { toggleTask, deleteTask } from '@/app/actions';
 import AddTaskForm from './AddTaskForm';
+import { formatDate } from '@/lib/dates';
 import type { Task } from '@/lib/types';
 
 export default function TaskList({ tasks }: { tasks: Task[] }) {
@@ -64,9 +65,4 @@ function TaskRow({ task }: { task: Task }) {
       </form>
     </li>
   );
-}
-
-function formatDate(iso: string): string {
-  const date = new Date(`${iso}T00:00:00`);
-  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 }

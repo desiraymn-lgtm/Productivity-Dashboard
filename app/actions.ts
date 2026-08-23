@@ -135,6 +135,12 @@ export async function deleteBook(id: number) {
   revalidatePath('/books');
 }
 
+export async function updateBookNotes(id: number, formData: FormData) {
+  const notes = optional(formData, 'notes');
+  await sql`update books set notes = ${notes} where id = ${id}`;
+  revalidatePath('/books');
+}
+
 // ---------- 5-Year Plan ----------
 
 export async function updatePlanSection(sectionKey: string, formData: FormData) {

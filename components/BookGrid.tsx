@@ -1,4 +1,6 @@
 import { updateBookStatus, deleteBook } from '@/app/actions';
+import { formatDate } from '@/lib/dates';
+import BookNotesEditor from './BookNotesEditor';
 import type { Book, BookStatus } from '@/lib/types';
 
 const STATUS_LABEL: Record<BookStatus, string> = {
@@ -40,10 +42,11 @@ function BookCard({ book }: { book: Book }) {
         {book.author && <span className="book-author">{book.author}</span>}
         {(book.start_date || book.end_date) && (
           <span className="book-dates">
-            {book.start_date ? formatDate(book.start_date) : '—'} to {book.end_date ? formatDate(book.end_date) : '—'}
+            {book.start_date ? formatDate(book.start_date, { month: 'short', day: 'numeric', year: '2-digit' }) : '—'} to{' '}
+            {book.end_date ? formatDate(book.end_date, { month: 'short', day: 'numeric', year: '2-digit' }) : '—'}
           </span>
         )}
-        {book.notes && <p className="book-notes">{book.notes}</p>}
+        <BookNotesEditor bookId={book.id} notes={book.notes} />
 
         <div className="add-form" style={{ marginTop: 8 }}>
           {(['want', 'reading', 'finished'] as BookStatus[]).map((status) => {
@@ -77,8 +80,4 @@ function BookCard({ book }: { book: Book }) {
       </div>
     </div>
   );
-}
-
-function formatDate(iso: string): string {
-  return new Date(`${iso}T00:00:00`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: '2-digit' });
 }
