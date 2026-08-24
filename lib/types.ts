@@ -160,7 +160,7 @@ export const GOAL_CATEGORIES = [
   'Career',
   'Wealth',
   'Health & Wellness',
-  'Social',
+  'Personal Development',
   'Entrepreneurship',
   'Spirituality',
   'Meaning & Purpose',
