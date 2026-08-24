@@ -6,13 +6,18 @@ export function toDateKey(date: Date): string {
 }
 
 /**
- * Formats a Postgres `date` column value. Neon's driver sometimes returns
- * these as a plain "YYYY-MM-DD" string and sometimes as a full ISO
- * timestamp ("YYYY-MM-DDT00:00:00.000Z") depending on the query — appending
- * "T00:00:00" to the latter produces an unparseable string ("Invalid
- * Date"), so only append it when the value doesn't already carry a time.
+ * Formats a Postgres `date` column value. Neon's driver is inconsistent
+ * about how it hands these back — sometimes a plain "YYYY-MM-DD" string,
+ * sometimes a full ISO timestamp string, sometimes an actual JS Date —
+ * depending on the query and the specific column. Appending "T00:00:00" to
+ * an already-full timestamp string produces an unparseable date, and
+ * calling .includes on a Date object throws outright, so every shape needs
+ * to be normalized before formatting.
  */
-export function formatDate(value: string, options: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' }): string {
-  const date = value.includes('T') ? new Date(value) : new Date(`${value}T00:00:00`);
+export function formatDate(
+  value: string | Date,
+  options: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' }
+): string {
+  const date = value instanceof Date ? value : new Date(value.includes('T') ? value : `${value}T00:00:00`);
   return date.toLocaleDateString('en-US', options);
 }
