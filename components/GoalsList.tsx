@@ -1,4 +1,6 @@
 import { toggleGoalStatus, deleteGoal } from '@/app/actions';
+import { formatDate } from '@/lib/dates';
+import GoalAchieveForm from './GoalAchieveForm';
 import type { Goal } from '@/lib/types';
 
 export default function GoalsList({ goals }: { goals: Goal[] }) {
@@ -42,20 +44,23 @@ function GoalCard({ goal }: { goal: Goal }) {
         </form>
       </div>
       {goal.notes && <p className="book-notes">{goal.notes}</p>}
-      {isAchieved && goal.achieved_at && <span className="prospect-meta">Achieved {formatDate(goal.achieved_at)}</span>}
-      <form action={toggleWithId}>
-        <button
-          type="submit"
-          className={`status-pill status-${isAchieved ? 'finished' : 'want'}`}
-          style={{ border: 'none', cursor: 'pointer', marginTop: 4 }}
-        >
-          {isAchieved ? '✓ Achieved — move back to active' : 'Mark as achieved'}
-        </button>
-      </form>
+      {isAchieved && goal.achieved_at && (
+        <span className="prospect-meta">Achieved {formatDate(goal.achieved_at, { month: 'long', year: 'numeric' })}</span>
+      )}
+
+      {isAchieved ? (
+        <form action={toggleWithId}>
+          <button
+            type="submit"
+            className="status-pill status-finished"
+            style={{ border: 'none', cursor: 'pointer', marginTop: 4 }}
+          >
+            ✓ Achieved — move back to active
+          </button>
+        </form>
+      ) : (
+        <GoalAchieveForm goalId={goal.id} />
+      )}
     </div>
   );
-}
-
-function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }

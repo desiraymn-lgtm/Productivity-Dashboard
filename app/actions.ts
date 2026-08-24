@@ -364,6 +364,18 @@ export async function toggleGoalStatus(id: number, currentStatus: string) {
   revalidatePath('/goals');
 }
 
+export async function markGoalAchieved(id: number, formData: FormData) {
+  const month = Number(formData.get('month'));
+  const year = Number(formData.get('year'));
+  const achievedAt =
+    Number.isFinite(month) && Number.isFinite(year)
+      ? new Date(Date.UTC(year, month - 1, 1)).toISOString()
+      : new Date().toISOString();
+
+  await sql`update goals set status = 'achieved', achieved_at = ${achievedAt} where id = ${id}`;
+  revalidatePath('/goals');
+}
+
 export async function deleteGoal(id: number) {
   await sql`delete from goals where id = ${id}`;
   revalidatePath('/goals');
