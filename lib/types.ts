@@ -156,10 +156,23 @@ export type Reward = {
 
 export type GoalStatus = 'active' | 'achieved';
 
+export const GOAL_CATEGORIES = [
+  'Career',
+  'Wealth',
+  'Health & Wellness',
+  'Social',
+  'Entrepreneurship',
+  'Spirituality',
+  'Meaning & Purpose',
+] as const;
+
+export type GoalCategory = (typeof GOAL_CATEGORIES)[number];
+
 export type Goal = {
   id: number;
   title: string;
   notes: string | null;
+  category: GoalCategory | null;
   status: GoalStatus;
   achieved_at: string | null;
   created_at: string;

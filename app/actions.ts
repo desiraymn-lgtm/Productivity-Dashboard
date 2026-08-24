@@ -352,8 +352,15 @@ export async function addGoal(formData: FormData) {
   const title = String(formData.get('title') || '').trim();
   if (!title) return;
   const notes = optional(formData, 'notes');
+  const category = optional(formData, 'category');
 
-  await sql`insert into goals (title, notes) values (${title}, ${notes})`;
+  await sql`insert into goals (title, notes, category) values (${title}, ${notes}, ${category})`;
+  revalidatePath('/goals');
+}
+
+export async function updateGoalCategory(id: number, category: string) {
+  const value = category.trim() || null;
+  await sql`update goals set category = ${value} where id = ${id}`;
   revalidatePath('/goals');
 }
 

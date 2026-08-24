@@ -1424,6 +1424,21 @@ select {
   margin-top: 0;
 }
 
+.goal-category-select {
+  align-self: flex-start;
+  background: var(--cream);
+  color: var(--caramel);
+  border: none;
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 6px 0 2px;
+}
+
 /* ---------- Rewards ---------- */
 
 .reward-photo {

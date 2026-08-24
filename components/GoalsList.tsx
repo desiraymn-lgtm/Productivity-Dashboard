@@ -1,6 +1,7 @@
 import { toggleGoalStatus, deleteGoal } from '@/app/actions';
 import { formatDate } from '@/lib/dates';
 import GoalAchieveForm from './GoalAchieveForm';
+import GoalCategorySelect from './GoalCategorySelect';
 import type { Goal } from '@/lib/types';
 
 export default function GoalsList({ goals }: { goals: Goal[] }) {
@@ -43,6 +44,7 @@ function GoalCard({ goal }: { goal: Goal }) {
           </button>
         </form>
       </div>
+      <GoalCategorySelect goalId={goal.id} category={goal.category} />
       {goal.notes && <p className="book-notes">{goal.notes}</p>}
       {isAchieved && goal.achieved_at && (
         <span className="prospect-meta">Achieved {formatDate(goal.achieved_at, { month: 'long', year: 'numeric' })}</span>

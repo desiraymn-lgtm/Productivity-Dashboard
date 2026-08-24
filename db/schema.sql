@@ -289,6 +289,8 @@ create table if not exists goals (
   created_at timestamptz not null default now()
 );
 
+alter table goals add column if not exists category text;
+
 -- ---------- Travel ----------
 
 create table if not exists travel_spots (
