@@ -1,4 +1,10 @@
 :root {
+  /* This is a light-themed site only — without this, Chrome/Edge apply
+     their dark-mode UA styling to native controls (buttons, selects) when
+     the visitor's OS is in dark mode, which is what was muddying the
+     status-switch buttons on the Books page. */
+  color-scheme: light;
+
   /* Ivory / cream / taupe / burgundy — from reference palette */
   --ivory: #faf6f0;
   --cream: #e4d6be;
@@ -419,11 +425,16 @@ select {
   width: 24px;
   height: 24px;
   border: none;
-  background: transparent;
+  background: var(--panel);
   color: var(--muted);
   font-size: 16px;
   cursor: pointer;
   border-radius: 5px;
+}
+
+.row-delete:disabled {
+  cursor: default;
+  opacity: 1;
 }
 
 .row-delete:hover {
