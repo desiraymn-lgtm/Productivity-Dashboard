@@ -62,7 +62,7 @@ function BookCard({ book }: { book: Book }) {
                     padding: '4px 8px',
                     fontSize: 11,
                     fontWeight: isCurrent ? 700 : 400,
-                    color: isCurrent ? 'var(--burgundy)' : 'var(--muted)',
+                    color: isCurrent ? 'var(--burgundy)' : 'var(--text)',
                   }}
                   disabled={isCurrent}
                 >

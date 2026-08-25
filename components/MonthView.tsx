@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { toDateKey } from '@/lib/dates';
+import { currentDateKey, currentLocalDate, toDateKey } from '@/lib/dates';
 import type { HabitWithStreak } from '@/lib/types';
 
 const WEEKDAY_LABELS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
@@ -15,7 +15,7 @@ export default function MonthView({
 }) {
   const [monthOffset, setMonthOffset] = useState(0);
 
-  const base = new Date();
+  const base = currentLocalDate();
   base.setDate(1);
   base.setMonth(base.getMonth() + monthOffset);
   const year = base.getFullYear();
@@ -33,7 +33,7 @@ export default function MonthView({
   }
 
   const total = habits.length;
-  const todayKey = toDateKey(new Date());
+  const todayKey = currentDateKey();
 
   const cells: { key: string | null; day: number | null; pct: number; isToday: boolean }[] = [];
   for (let i = 0; i < firstWeekday; i++) cells.push({ key: null, day: null, pct: 0, isToday: false });

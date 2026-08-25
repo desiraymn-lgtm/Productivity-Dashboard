@@ -2,12 +2,12 @@
 
 import { useState } from 'react';
 import { toggleHabitLogDate } from '@/app/actions';
-import { toDateKey } from '@/lib/dates';
+import { currentLocalDate, toDateKey } from '@/lib/dates';
 import type { HabitWithStreak } from '@/lib/types';
 
 function lastNDays(n: number): { key: string; label: string; isToday: boolean }[] {
   const days: { key: string; label: string; isToday: boolean }[] = [];
-  const today = new Date();
+  const today = currentLocalDate();
   for (let i = n - 1; i >= 0; i--) {
     const d = new Date(today);
     d.setDate(d.getDate() - i);

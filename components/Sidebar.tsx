@@ -1,3 +1,5 @@
+import { currentLocalDate } from '@/lib/dates';
+
 type SidebarProps = {
   openTasks: number;
   totalTasks: number;
@@ -7,7 +9,7 @@ type SidebarProps = {
 };
 
 export default function Sidebar({ openTasks, totalTasks, habitsDone, habitsTotal, notesCount }: SidebarProps) {
-  const today = new Date();
+  const today = currentLocalDate();
   const dateLabel = today.toLocaleDateString('en-US', {
     weekday: 'long',
     month: 'long',

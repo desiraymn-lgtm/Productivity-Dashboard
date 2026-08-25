@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { sql } from '@/lib/db';
+import { currentDateKey } from '@/lib/dates';
 
 // ---------- Tasks ----------
 
@@ -44,10 +45,7 @@ export async function addHabit(formData: FormData) {
 }
 
 export async function toggleHabitToday(habitId: number, isDoneToday: boolean) {
-  const today = new Date();
-  const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(
-    today.getDate()
-  ).padStart(2, '0')}`;
+  const todayStr = currentDateKey();
 
   if (isDoneToday) {
     await sql`delete from habit_logs where habit_id = ${habitId} and log_date = ${todayStr}`;
@@ -119,7 +117,7 @@ export async function addBook(formData: FormData) {
 }
 
 export async function updateBookStatus(id: number, status: string) {
-  const today = todayStr();
+  const today = currentDateKey();
   if (status === 'reading') {
     await sql`update books set status = 'reading', start_date = coalesce(start_date, ${today}) where id = ${id}`;
   } else if (status === 'finished') {
@@ -406,7 +404,7 @@ export async function addTravelSpot(formData: FormData) {
 
 export async function toggleTravelStatus(id: number, currentStatus: string) {
   const next = currentStatus === 'been' ? 'want' : 'been';
-  const visitedDate = next === 'been' ? todayStr() : null;
+  const visitedDate = next === 'been' ? currentDateKey() : null;
   await sql`update travel_spots set status = ${next}, visited_date = ${visitedDate} where id = ${id}`;
   revalidatePath('/travel');
 }
@@ -426,9 +424,4 @@ function optional(formData: FormData, key: string): string | null {
 function numeric(formData: FormData, key: string): number {
   const value = Number(formData.get(key));
   return Number.isFinite(value) ? value : 0;
-}
-
-function todayStr(): string {
-  const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }

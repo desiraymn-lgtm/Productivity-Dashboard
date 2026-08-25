@@ -1,3 +1,5 @@
+import { currentLocalDate, toDateKey } from './dates';
+
 /**
  * Given the list of dates (YYYY-MM-DD strings) a habit was logged as done,
  * work out the current consecutive-day streak and whether it's done today.
@@ -7,7 +9,7 @@
  */
 export function computeStreak(logDates: string[]): { streak: number; doneToday: boolean } {
   const logged = new Set(logDates);
-  const today = new Date();
+  const today = currentLocalDate();
   const todayStr = toDateKey(today);
   const doneToday = logged.has(todayStr);
 
@@ -23,11 +25,4 @@ export function computeStreak(logDates: string[]): { streak: number; doneToday: 
   }
 
   return { streak, doneToday };
-}
-
-function toDateKey(date: Date): string {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
 }

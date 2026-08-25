@@ -1,4 +1,5 @@
 import { saveSnapshot } from '@/app/actions';
+import { currentDateKey } from '@/lib/dates';
 import type { Account, AccountCategory } from '@/lib/types';
 
 const CATEGORY_LABEL: Record<AccountCategory, string> = {
@@ -22,7 +23,7 @@ export default function SnapshotForm({
     return <p className="empty">Add an account above before recording a snapshot.</p>;
   }
 
-  const today = new Date().toISOString().slice(0, 10);
+  const today = currentDateKey();
   const liabilities = accounts.filter((a) => a.category === 'credit_card');
 
   return (
