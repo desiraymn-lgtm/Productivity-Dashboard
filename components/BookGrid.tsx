@@ -14,12 +14,30 @@ export default function BookGrid({ books }: { books: Book[] }) {
     return <p className="empty">No books yet. Add your first one above.</p>;
   }
 
+  const active = books.filter((book) => book.status !== 'finished');
+  const finished = books.filter((book) => book.status === 'finished');
+
   return (
-    <div className="book-grid">
-      {books.map((book) => (
-        <BookCard key={book.id} book={book} />
-      ))}
-    </div>
+    <>
+      {active.length > 0 && (
+        <div className="book-grid">
+          {active.map((book) => (
+            <BookCard key={book.id} book={book} />
+          ))}
+        </div>
+      )}
+
+      {finished.length > 0 && (
+        <>
+          <h2 className="section-title">Finished</h2>
+          <div className="book-grid">
+            {finished.map((book) => (
+              <BookCard key={book.id} book={book} />
+            ))}
+          </div>
+        </>
+      )}
+    </>
   );
 }
 
