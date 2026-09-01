@@ -2,6 +2,7 @@ import { sql } from '@/lib/db';
 import AccountsList from '@/components/AccountsList';
 import SnapshotForm from '@/components/SnapshotForm';
 import SnapshotSummary from '@/components/SnapshotSummary';
+import MonthEndTrend from '@/components/MonthEndTrend';
 import SnapshotHistory from '@/components/SnapshotHistory';
 import PaycheckCard from '@/components/PaycheckCard';
 import RecurringBillsCard from '@/components/RecurringBillsCard';
@@ -53,6 +54,7 @@ export default async function BudgetPage() {
       </div>
 
       <SnapshotSummary accounts={accounts} latestBalances={latestBalances} latestDate={latestDate} />
+      <MonthEndTrend rows={historyRows} />
       <SnapshotForm accounts={accounts} latestBalances={latestBalances} />
       <SnapshotHistory rows={historyRows} />
 
