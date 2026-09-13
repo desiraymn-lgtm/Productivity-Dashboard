@@ -178,6 +178,16 @@ export type Goal = {
   created_at: string;
 };
 
+export type GymSection = {
+  id: number;
+  section_key: string;
+  title: string;
+  subtitle: string | null;
+  content: string;
+  sort_order: number;
+  updated_at: string;
+};
+
 export type TravelStatus = 'want' | 'been';
 
 export type TravelSpot = {

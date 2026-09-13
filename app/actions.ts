@@ -150,6 +150,17 @@ export async function updatePlanSection(sectionKey: string, formData: FormData) 
   revalidatePath('/five-year-plan');
 }
 
+// ---------- Gym ----------
+
+export async function updateGymSection(sectionKey: string, formData: FormData) {
+  const content = String(formData.get('content') || '');
+  await sql`
+    update gym_sections set content = ${content}, updated_at = now()
+    where section_key = ${sectionKey}
+  `;
+  revalidatePath('/gym');
+}
+
 // ---------- Vision board ----------
 
 export async function addVisionItem(formData: FormData) {
