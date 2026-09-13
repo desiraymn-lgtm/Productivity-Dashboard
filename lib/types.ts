@@ -198,22 +198,6 @@ export type VendingSection = {
   updated_at: string;
 };
 
-export type KpiMonthlyLog = {
-  id: number;
-  month_key: string;
-  income: string | null;
-  total_saved: string | null;
-  acquisition_fund_balance: string | null;
-  roth_ira_contribution: string | null;
-  credit_utilization_pct: string | null;
-  business_listings_reviewed: number | null;
-  tiktok_posts: number | null;
-  net_worth: string | null;
-  rent_paid: string | null;
-  gym_tennis_sessions: number | null;
-  created_at: string;
-};
-
 export type CoastFiAssumptions = {
   id: number;
   current_age: number;

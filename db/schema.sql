@@ -781,24 +781,6 @@ update vending_sections set content = $$Track this every month. It's the same ma
 Vending machine profit margins typically run 6–15% of revenue once you account for everything — don't judge the business by revenue alone. Track this every single month from Day 1, even when the numbers are small — this is you learning to read a P&L using your own real business, a skill you'll need when evaluating businesses to acquire later.$$
 where section_key = 'pnl';
 
--- ---------- KPI Dashboard (monthly log) ----------
-
-create table if not exists kpi_monthly_log (
-  id serial primary key,
-  month_key text not null unique,
-  income numeric,
-  total_saved numeric,
-  acquisition_fund_balance numeric,
-  roth_ira_contribution numeric,
-  credit_utilization_pct numeric,
-  business_listings_reviewed integer,
-  tiktok_posts integer,
-  net_worth numeric,
-  rent_paid numeric,
-  gym_tennis_sessions integer,
-  created_at timestamptz not null default now()
-);
-
 -- ---------- Coast FI Tracker ----------
 
 create table if not exists coast_fi_assumptions (

@@ -436,53 +436,6 @@ export async function deleteTravelSpot(id: number) {
   revalidatePath('/travel');
 }
 
-// ---------- KPI Dashboard ----------
-
-export async function saveKpiMonth(formData: FormData) {
-  const monthKey = String(formData.get('monthKey') || '').trim();
-  if (!monthKey) return;
-
-  const income = numericOrNull(formData, 'income');
-  const totalSaved = numericOrNull(formData, 'totalSaved');
-  const acquisitionFundBalance = numericOrNull(formData, 'acquisitionFundBalance');
-  const rothIraContribution = numericOrNull(formData, 'rothIraContribution');
-  const creditUtilizationPct = numericOrNull(formData, 'creditUtilizationPct');
-  const businessListingsReviewed = integerOrNull(formData, 'businessListingsReviewed');
-  const tiktokPosts = integerOrNull(formData, 'tiktokPosts');
-  const netWorth = numericOrNull(formData, 'netWorth');
-  const rentPaid = numericOrNull(formData, 'rentPaid');
-  const gymTennisSessions = integerOrNull(formData, 'gymTennisSessions');
-
-  await sql`
-    insert into kpi_monthly_log (
-      month_key, income, total_saved, acquisition_fund_balance, roth_ira_contribution,
-      credit_utilization_pct, business_listings_reviewed, tiktok_posts, net_worth, rent_paid, gym_tennis_sessions
-    )
-    values (
-      ${monthKey}, ${income}, ${totalSaved}, ${acquisitionFundBalance}, ${rothIraContribution},
-      ${creditUtilizationPct}, ${businessListingsReviewed}, ${tiktokPosts}, ${netWorth}, ${rentPaid}, ${gymTennisSessions}
-    )
-    on conflict (month_key) do update set
-      income = excluded.income,
-      total_saved = excluded.total_saved,
-      acquisition_fund_balance = excluded.acquisition_fund_balance,
-      roth_ira_contribution = excluded.roth_ira_contribution,
-      credit_utilization_pct = excluded.credit_utilization_pct,
-      business_listings_reviewed = excluded.business_listings_reviewed,
-      tiktok_posts = excluded.tiktok_posts,
-      net_worth = excluded.net_worth,
-      rent_paid = excluded.rent_paid,
-      gym_tennis_sessions = excluded.gym_tennis_sessions
-  `;
-
-  revalidatePath('/kpi');
-}
-
-export async function deleteKpiMonth(monthKey: string) {
-  await sql`delete from kpi_monthly_log where month_key = ${monthKey}`;
-  revalidatePath('/kpi');
-}
-
 // ---------- Coast FI ----------
 
 export async function updateCoastFiAssumptions(formData: FormData) {
