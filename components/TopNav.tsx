@@ -14,7 +14,9 @@ const LINKS = [
   { href: '/travel', label: 'Travel' },
   { href: '/tiktok', label: 'TikTok Plan' },
   { href: '/business', label: 'Business' },
+  { href: '/vending', label: 'Vending' },
   { href: '/budget', label: 'Budget' },
+  { href: '/kpi', label: 'KPI Dashboard' },
   { href: '/rewards', label: 'Rewards' },
 ];
 

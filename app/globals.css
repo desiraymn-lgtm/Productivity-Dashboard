@@ -1599,6 +1599,15 @@ select {
 
 /* ---------- Budget ---------- */
 
+.table-scroll {
+  overflow-x: auto;
+  margin-bottom: 28px;
+}
+
+.table-scroll .budget-table {
+  margin-bottom: 0;
+}
+
 .budget-table {
   width: 100%;
   border-collapse: collapse;

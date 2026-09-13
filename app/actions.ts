@@ -161,6 +161,17 @@ export async function updateGymSection(sectionKey: string, formData: FormData) {
   revalidatePath('/gym');
 }
 
+// ---------- Vending ----------
+
+export async function updateVendingSection(sectionKey: string, formData: FormData) {
+  const content = String(formData.get('content') || '');
+  await sql`
+    update vending_sections set content = ${content}, updated_at = now()
+    where section_key = ${sectionKey}
+  `;
+  revalidatePath('/vending');
+}
+
 // ---------- Vision board ----------
 
 export async function addVisionItem(formData: FormData) {
@@ -425,6 +436,105 @@ export async function deleteTravelSpot(id: number) {
   revalidatePath('/travel');
 }
 
+// ---------- KPI Dashboard ----------
+
+export async function saveKpiMonth(formData: FormData) {
+  const monthKey = String(formData.get('monthKey') || '').trim();
+  if (!monthKey) return;
+
+  const income = numericOrNull(formData, 'income');
+  const totalSaved = numericOrNull(formData, 'totalSaved');
+  const acquisitionFundBalance = numericOrNull(formData, 'acquisitionFundBalance');
+  const rothIraContribution = numericOrNull(formData, 'rothIraContribution');
+  const creditUtilizationPct = numericOrNull(formData, 'creditUtilizationPct');
+  const businessListingsReviewed = integerOrNull(formData, 'businessListingsReviewed');
+  const tiktokPosts = integerOrNull(formData, 'tiktokPosts');
+  const netWorth = numericOrNull(formData, 'netWorth');
+  const rentPaid = numericOrNull(formData, 'rentPaid');
+  const gymTennisSessions = integerOrNull(formData, 'gymTennisSessions');
+
+  await sql`
+    insert into kpi_monthly_log (
+      month_key, income, total_saved, acquisition_fund_balance, roth_ira_contribution,
+      credit_utilization_pct, business_listings_reviewed, tiktok_posts, net_worth, rent_paid, gym_tennis_sessions
+    )
+    values (
+      ${monthKey}, ${income}, ${totalSaved}, ${acquisitionFundBalance}, ${rothIraContribution},
+      ${creditUtilizationPct}, ${businessListingsReviewed}, ${tiktokPosts}, ${netWorth}, ${rentPaid}, ${gymTennisSessions}
+    )
+    on conflict (month_key) do update set
+      income = excluded.income,
+      total_saved = excluded.total_saved,
+      acquisition_fund_balance = excluded.acquisition_fund_balance,
+      roth_ira_contribution = excluded.roth_ira_contribution,
+      credit_utilization_pct = excluded.credit_utilization_pct,
+      business_listings_reviewed = excluded.business_listings_reviewed,
+      tiktok_posts = excluded.tiktok_posts,
+      net_worth = excluded.net_worth,
+      rent_paid = excluded.rent_paid,
+      gym_tennis_sessions = excluded.gym_tennis_sessions
+  `;
+
+  revalidatePath('/kpi');
+}
+
+export async function deleteKpiMonth(monthKey: string) {
+  await sql`delete from kpi_monthly_log where month_key = ${monthKey}`;
+  revalidatePath('/kpi');
+}
+
+// ---------- Coast FI ----------
+
+export async function updateCoastFiAssumptions(formData: FormData) {
+  const currentAge = integerOrNull(formData, 'currentAge') ?? 0;
+  const targetAge = integerOrNull(formData, 'targetAge') ?? 0;
+  const baseYear = integerOrNull(formData, 'baseYear') ?? 0;
+  const annualReturnPct = numericOrNull(formData, 'annualReturnPct') ?? 0;
+  const targetAnnualSpend = numericOrNull(formData, 'targetAnnualSpend') ?? 0;
+  const currentBalance = numericOrNull(formData, 'currentBalance') ?? 0;
+  const annualContributionTarget = numericOrNull(formData, 'annualContributionTarget') ?? 0;
+
+  await sql`
+    update coast_fi_assumptions set
+      current_age = ${currentAge},
+      target_age = ${targetAge},
+      base_year = ${baseYear},
+      annual_return_pct = ${annualReturnPct},
+      target_annual_spend = ${targetAnnualSpend},
+      current_balance = ${currentBalance},
+      annual_contribution_target = ${annualContributionTarget},
+      updated_at = now()
+    where id = 1
+  `;
+  revalidatePath('/budget');
+}
+
+export async function saveCoastFiMonth(formData: FormData) {
+  const monthKey = String(formData.get('monthKey') || '').trim();
+  if (!monthKey) return;
+
+  const atMatchCap = formData.get('atMatchCap') === 'on';
+  const rothContributionMade = formData.get('rothContributionMade') === 'on';
+  const rothContributionAmount = numericOrNull(formData, 'rothContributionAmount');
+  const combinedBalance = numericOrNull(formData, 'combinedBalance');
+
+  await sql`
+    insert into coast_fi_monthly (month_key, at_match_cap, roth_contribution_made, roth_contribution_amount, combined_balance)
+    values (${monthKey}, ${atMatchCap}, ${rothContributionMade}, ${rothContributionAmount}, ${combinedBalance})
+    on conflict (month_key) do update set
+      at_match_cap = excluded.at_match_cap,
+      roth_contribution_made = excluded.roth_contribution_made,
+      roth_contribution_amount = excluded.roth_contribution_amount,
+      combined_balance = excluded.combined_balance
+  `;
+  revalidatePath('/budget');
+}
+
+export async function deleteCoastFiMonth(monthKey: string) {
+  await sql`delete from coast_fi_monthly where month_key = ${monthKey}`;
+  revalidatePath('/budget');
+}
+
 // ---------- Shared helpers ----------
 
 function optional(formData: FormData, key: string): string | null {
@@ -435,4 +545,16 @@ function optional(formData: FormData, key: string): string | null {
 function numeric(formData: FormData, key: string): number {
   const value = Number(formData.get(key));
   return Number.isFinite(value) ? value : 0;
+}
+
+function numericOrNull(formData: FormData, key: string): number | null {
+  const raw = String(formData.get(key) || '').trim();
+  if (raw === '') return null;
+  const value = Number(raw);
+  return Number.isFinite(value) ? value : null;
+}
+
+function integerOrNull(formData: FormData, key: string): number | null {
+  const value = numericOrNull(formData, key);
+  return value == null ? null : Math.round(value);
 }

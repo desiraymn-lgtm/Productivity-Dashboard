@@ -590,3 +590,276 @@ update gym_sections set content = $$| Week | Lifting Focus | Pull-Up Focus |
 | 3 | Increase weight on compound lifts (squat, bench, RDL, row) | Lighter band still, negatives slower (5 sec) |
 | 4 | Heaviest week — push all working sets to true failure on final set | Attempt 1 unassisted rep at the end of the block |$$
 where section_key = 'progression';
+
+-- ---------- 5-Year Plan: restructure to 7 domains + confirmed numbers ----------
+-- UPDATE (not INSERT) so this is safe to re-run against a database that
+-- already has these rows.
+
+update plan_sections set subtitle = 'Mission & Operating System', content = $$## Mission
+
+Build financial independence and ownership through disciplined execution — running my own life and finances the way I run a project: clear objectives, tracked KPIs, and no dollar or hour without a job.
+
+## The Seven Domains
+
+- **Career Growth** — $80K → $100K+ (floor) / $120K+ (stretch) by 2030, through documented wins and negotiated promotions — not job-hopping.
+- **Finance & Investing** — Four separated buckets: emergency fund, business acquisition fund, retirement (401k + Roth IRA), and long-term brokerage. Confirmed: $2,360.36 biweekly take-home, 75% 401k match (currently contributing 4% — check for a cap).
+- **Business Acquisition** — Buy a profitable "boring business" ($300K–$700K) via SBA 7(a) + possible seller financing, closing 2028–2029.
+- **Content (TikTok & Instagram)** — Document the real journey (career, budgeting, business search, moving) across 3 starting pillars, 2–3x/week. Cross-post to Instagram once the workflow feels easy.
+- **Health & Wellness** — Protect the M–Th gym + weekend gym/tennis routine, a simple daily fiber/protein target, and a quarterly body/fitness check-in.
+- **Growth & Reflection** — A sustainable reading pace, a regular Bible reading/study rhythm, and at least one unscheduled block a week.
+- **Life Infrastructure** — Protect the routine that makes everything else possible: the Dec 1 move within ~$1,500/mo, and a weekly 30-minute board meeting.
+
+## Priority Tiers — Not Everything Gets Equal Intensity
+
+**Primary this year (tracked closely):**
+
+- Career Growth
+- Finance & Investing
+- Business Acquisition
+
+**Active, but lighter-touch:**
+
+- Content (TikTok & Instagram)
+- Health & Wellness
+
+**Steady background (protect, don't neglect):**
+
+- Growth & Reflection
+- Life Infrastructure
+
+Revisit this tiering at each quarterly board meeting.
+
+## Master KPI Dashboard (track monthly)
+
+| KPI | Target |
+|---|---|
+| Income | $80K → $100K+ by 2029–30 |
+| Savings rate | 30%+ of take-home |
+| Business Acquisition Fund | Growing every month, no withdrawals |
+| Credit utilization | Under 10% across all cards |
+| Roth IRA | On pace for annual max |
+| Business listings reviewed | 5–10/month |
+| TikTok posting cadence | 2–3x/week, 3 active pillars |
+| Net worth | Tracked quarterly |
+
+## The One-Line Operating Principle
+
+Every dollar and every hour gets assigned to one of the seven domains — Career, Finance, Acquisition, Content, Health & Wellness, Growth & Reflection, or Life Infrastructure — and nothing sits idle without a job.$$
+where section_key = 'vision';
+
+update plan_sections set subtitle = '2026 · Foundation', content = $$**Theme:** Set up every system so the next four years compound instead of scramble.
+
+- [ ] Move out Dec 1, within a ~$1,500/mo all-in rent budget
+- [ ] Confirm the 401k match cap — 75% match confirmed; check whether it applies up to a specific % of pay (currently contributing 4%) and raise to the cap if under it
+- [ ] Automate monthly transfers: Roth IRA (~$625), Business Acquisition Fund ($1,000–1,800), brokerage with what is left
+- [ ] Book a free consult with the UH SBDC (1455 West Loop South, Suite 900 · (713) 752-8400)
+- [ ] Start reviewing 5–10 business listings/month on BizBuySell — track SDE, multiple, and reason for sale
+- [ ] Launch TikTok with your top 3 pillars, posting 2–3x/week
+- [ ] Set a specific body/fitness goal and a simple daily fiber/protein target
+- [ ] Set a sustainable reading pace and a Bible reading/study rhythm
+- [ ] Keep gym (M–Th) and weekend routine intact — do not let new projects erode it
+
+**Income target:** $80K
+**Confirmed take-home:** $2,360.36 biweekly (~$5,114/mo gross-to-net on $80K)$$
+where section_key = 'year_1';
+
+update plan_sections set content = $$**Theme:** The first four years were about building the machine — this year, run it and decide what is next.
+
+- [ ] Stabilize and grow the acquired business
+- [ ] Reassess: reinvest profits into growth, consider a second acquisition, or scale back W2 involvement
+- [ ] Revisit the $120K+ stretch income target
+- [ ] Run a full annual "board meeting" across all seven domains — recalibrate the next chapter$$
+where section_key = 'year_5';
+
+-- ---------- Vending Business (editable sections) ----------
+
+create table if not exists vending_sections (
+  id serial primary key,
+  section_key text not null unique,
+  title text not null,
+  subtitle text,
+  content text not null default '',
+  sort_order integer not null default 0,
+  updated_at timestamptz not null default now()
+);
+
+insert into vending_sections (section_key, title, sort_order) values
+  ('overview', 'Overview', 0),
+  ('week1', 'Week 1 — Build the Legal Foundation', 1),
+  ('week2', 'Week 2 — Money & Business Credit', 2),
+  ('week3', 'Week 3 — The Machine & The Location', 3),
+  ('week4', 'Week 4 — Launch & Learn Your Numbers', 4),
+  ('budget', 'Startup Budget Summary', 5),
+  ('pnl', 'P&L Template', 6)
+on conflict (section_key) do nothing;
+
+update vending_sections set subtitle = 'First, the simple explanations', content = $$**LLC** = a legal box you put your business in. If something goes wrong with the business, your personal money (savings, car, etc.) is protected — only the business's money is at risk.
+
+**EIN** = a Social Security Number, but for your business. You need it to open a business bank account and file taxes. It's free from the IRS.
+
+**Registered Agent** = a real person or address that agrees to receive official legal mail for your business. You can be your own registered agent if you have a reliable address.
+
+**Business Credit** = a credit score, but for your business instead of you personally. It lets your business borrow money or get supplier terms later without using your personal credit.
+
+**P&L (Profit & Loss Statement)** = one simple sentence turned into math: Money that came in − Money that went out = What you actually made. That's it.
+
+## How This Connects to Your Bigger Plan
+
+This vending machine isn't the business you're planning to acquire in 2028-2029 — it's practice. By running this for a year, you'll walk into that much bigger acquisition already knowing how to read a P&L, manage a business bank account, handle basic bookkeeping, and build business credit — skills that make you a stronger buyer, not just a stronger vending operator.$$
+where section_key = 'overview';
+
+update vending_sections set subtitle = 'Days 1–7 · ~$300–320', content = $$- [ ] Day 1 — Pick your LLC name. Check it's available at the Texas Secretary of State's website (SOSDirect business name search). Pick something simple, e.g. "[YourName] Vending LLC."
+- [ ] Day 2 — Decide your registered agent. Your own home address (public record) or a paid service (~$50–150/year) for privacy.
+- [ ] Day 3 — File your Certificate of Formation (Form 205) with the Texas Secretary of State online via SOSDirect. Cost: $300 (plus a ~2.7% card fee online). Processing: 5–7 business days, or $25 extra for next-day.
+- [ ] Day 4 — While formation processes, write a simple Operating Agreement. Texas doesn't require filing this, but it protects your liability status.
+- [ ] Day 5–6 — Wait for LLC approval. Use this time to research vending machine types and locations.
+- [ ] Day 7 — Once approved, get your EIN. Go to IRS.gov, apply online — free and instant. You'll need your approved LLC paperwork.
+
+**Week 1 cost:** ~$300–320$$
+where section_key = 'week1';
+
+update vending_sections set subtitle = 'Days 8–14 · ~$0–100', content = $$- [ ] Day 8 — Open a business checking account using your LLC documents + EIN. Keep this 100% separate from personal accounts.
+- [ ] Day 9 — Get a business phone number (a free Google Voice number is fine) and keep your business name, address, and phone identical everywhere.
+- [ ] Day 10 — Apply for a free D-U-N-S Number from Dun & Bradstreet — your business's official credit ID. Free, but can take up to 30 days.
+- [ ] Day 11 — Apply for a Texas Sales Tax Permit (free) through the Texas Comptroller's website.
+- [ ] Day 12 — Look into 1-2 "net-30" vendor accounts (Uline, Quill, Grainger) that report on-time payment to build your business credit file.
+- [ ] Day 13 — Get a business credit card if you qualify (many small-business cards approve based on personal credit while the business is new — normal and fine).
+- [ ] Day 14 — Check if Houston/Harris County requires a local permit for vending machines (varies by product type — call 311 or check the health department if perishable).
+
+**Week 2 cost:** ~$0–100 (mostly free registrations; optional agent/card fees)$$
+where section_key = 'week2';
+
+update vending_sections set subtitle = 'Days 15–21 · ~$1,350–6,750', content = $$- [ ] Day 15 — Decide new vs. refurbished. New snack machine: $3,000–$5,500. Refurbished: $1,000–$3,500 — a reasonable way to learn without the biggest capital outlay.
+- [ ] Day 16 — Decide your product type: snacks, drinks, or combo. Combo machines cost more (~$4,500–$7,500 new) but can perform better in mixed-traffic spots.
+- [ ] Day 17 — Buy your machine. Ask about a warranty and whether it's cashless-payment-ready — cashless-capable machines lose meaningfully less revenue than cash-only ones.
+- [ ] Day 18 — Find your first location. Best beginner spots: small offices, gyms, laundromats, apartment complexes, auto shops. A simple one-page placement letter is enough; commission arrangements typically run 0–25% of revenue or a small flat monthly fee.
+- [ ] Day 19 — Get basic liability insurance for the machine and location.
+- [ ] Day 20 — Buy your initial product stock. Budget $300–$600 for a full first fill.
+- [ ] Day 21 — Schedule delivery and installation. Budget $50–350 depending on location.
+
+**Week 3 cost:** ~$1,350–6,750 depending on new vs. refurbished — this is your single biggest expense in the whole 30 days.$$
+where section_key = 'week3';
+
+update vending_sections set subtitle = 'Days 22–30', content = $$- [ ] Day 22 — Install the machine. Test the payment system, make sure it's stocked and priced.
+- [ ] Day 23 — Set up a simple P&L tracker (see the P&L Template section) — this is how you'll actually understand whether the business is working.
+- [ ] Day 24–27 — Let it run. Check on it every couple of days. Note what's selling and what isn't.
+- [ ] Day 28 — Do your first restock and record what you spent and what you collected.
+- [ ] Day 29 — Fill in your first week's real P&L using actual numbers.
+- [ ] Day 30 — Review: Did the location perform as hoped? Would you add a second machine, move this one, or adjust the product mix? Decide your next 30-day goal.$$
+where section_key = 'week4';
+
+update vending_sections set content = $$| Category | Low | High |
+|---|---|---|
+| LLC filing (Certificate of Formation) | $300 | $325 |
+| Registered agent (if using a service) | $0 | $150 |
+| EIN | $0 | $0 |
+| Business bank account | $0 | $0 |
+| D-U-N-S Number | $0 | $0 |
+| Sales tax permit | $0 | $0 |
+| Vending machine (refurbished to new) | $1,000 | $5,500 |
+| Initial product stock | $300 | $600 |
+| Delivery & installation | $50 | $350 |
+| Insurance (first year, prorated) | $100 | $400 |
+| **Total** | **~$1,750** | **~$7,325** |
+
+A realistic, lean first-machine budget lands around **$3,000–$4,000** if you go refurbished and keep the extras minimal — well within your Business Acquisition Fund without touching your other goals.$$
+where section_key = 'budget';
+
+update vending_sections set content = $$Track this every month. It's the same math every time.
+
+| Line | Example Month 1 |
+|---|---|
+| Revenue (total cash/card collected) | $400 |
+| minus Cost of Goods Sold (what you paid for the snacks/drinks sold) | −$160 |
+| = **Gross Profit** | $240 |
+| minus Location fee/commission (if any) | −$40 |
+| minus Restocking trips / mileage | −$20 |
+| minus Software/cashless fees | −$15 |
+| minus Insurance (monthly share) | −$25 |
+| = **Net Profit (what you actually made)** | **$140** |
+
+Vending machine profit margins typically run 6–15% of revenue once you account for everything — don't judge the business by revenue alone. Track this every single month from Day 1, even when the numbers are small — this is you learning to read a P&L using your own real business, a skill you'll need when evaluating businesses to acquire later.$$
+where section_key = 'pnl';
+
+-- ---------- KPI Dashboard (monthly log) ----------
+
+create table if not exists kpi_monthly_log (
+  id serial primary key,
+  month_key text not null unique,
+  income numeric,
+  total_saved numeric,
+  acquisition_fund_balance numeric,
+  roth_ira_contribution numeric,
+  credit_utilization_pct numeric,
+  business_listings_reviewed integer,
+  tiktok_posts integer,
+  net_worth numeric,
+  rent_paid numeric,
+  gym_tennis_sessions integer,
+  created_at timestamptz not null default now()
+);
+
+-- ---------- Coast FI Tracker ----------
+
+create table if not exists coast_fi_assumptions (
+  id serial primary key,
+  current_age integer not null default 26,
+  target_age integer not null default 37,
+  base_year integer not null default 2026,
+  annual_return_pct numeric not null default 7,
+  target_annual_spend numeric not null default 60000,
+  current_balance numeric not null default 9600,
+  annual_contribution_target numeric not null default 13100,
+  updated_at timestamptz not null default now()
+);
+
+insert into coast_fi_assumptions (id) values (1) on conflict (id) do nothing;
+
+create table if not exists coast_fi_monthly (
+  id serial primary key,
+  month_key text not null unique,
+  at_match_cap boolean,
+  roth_contribution_made boolean,
+  roth_contribution_amount numeric,
+  combined_balance numeric,
+  created_at timestamptz not null default now()
+);
+
+-- ---------- Goals: action items from the updated 5-Year Plan ----------
+
+insert into goals (title, notes, category) values
+  ('Document 3-5 measurable wins every 6 months', 'Dollars managed, % costs cut, team size, project value — not just responsibilities.', 'Career'),
+  ('Update resume/LinkedIn quarterly', 'Keep it current with your measurable wins.', 'Career'),
+  ('Build relationships with senior leadership', 'Over the next 6-12 months in your new role, before pursuing the next move.', 'Career'),
+  ('Research Senior PM / Program Manager pay in Houston', 'So you know your target number before the next negotiation.', 'Career'),
+  ('Negotiate using PMP + dual-degree + measurable outcomes', 'At each performance review.', 'Career'),
+  ('Consider one additional credential', 'Only if clearly tied to your target industry (e.g. Lean Six Sigma) — don''t collect certifications for their own sake.', 'Career'),
+  ('Confirm the 401k match cap', '75% match confirmed — find out if it applies up to a specific % of pay, and raise your contribution (currently 4%) to the cap if you''re under it.', 'Wealth'),
+  ('Automate monthly transfers', 'Roth IRA (~$625/mo), Business Acquisition Fund ($1,000-1,800/mo), brokerage with what''s left.', 'Wealth'),
+  ('Route raises to the Acquisition Fund first', 'After each raise, before lifestyle adjusts upward.', 'Wealth'),
+  ('Re-confirm emergency fund covers 3-6 months', 'Once you know your real post-move Houston budget.', 'Wealth'),
+  ('Book a free consult with the UH SBDC', '1455 West Loop South, Suite 900 · (713) 752-8400 — no-cost advising on valuation, financing, and planning.', 'Entrepreneurship'),
+  ('Learn SDE vs. EBITDA', 'SDE is the standard metric for small "main street" acquisitions.', 'Entrepreneurship'),
+  ('Review 5-10 business listings a month', 'BizBuySell and similar sites — track revenue, SDE, multiple, customer concentration, owner hours, and reason for sale.', 'Entrepreneurship'),
+  ('Build relationships with SBA lenders and a broker', '1-2 SBA lenders and a business broker over the next 12-18 months.', 'Entrepreneurship'),
+  ('Narrow to 1-2 target industries', 'By end of 2027, based on what you''re learning from listings.', 'Entrepreneurship'),
+  ('Keep all credit cards low-utilization', 'Avoid new debt in the 12 months before applying for acquisition financing.', 'Entrepreneurship'),
+  ('Actively evaluate and make offers', 'By 2028 — target closing by 2028-2029.', 'Entrepreneurship'),
+  ('Keep your W2 through the acquisition', 'And likely 3-6 months into ownership as a transition buffer.', 'Entrepreneurship'),
+  ('Pick your top 3 TikTok pillars', 'From your notes — do this this week.', 'Personal Development'),
+  ('Post 2-3x/week to start', 'Batch-filmed on weekends, per your schedule.', 'Personal Development'),
+  ('Use the Dec 1 move as a content arc', 'A natural arc for the apartment-furnishing series.', 'Personal Development'),
+  ('Reassess pillars after 60-90 days', 'Keep, cut, or expand from there.', 'Personal Development'),
+  ('Start cross-posting to Instagram Reels', 'Once posting feels routine, past the 90-day mark — same footage, no new filming.', 'Personal Development'),
+  ('Treat income projections as fantasy', 'Don''t budget around any figure until you have 90 days of real data.', 'Personal Development'),
+  ('Set a specific body/fitness goal', 'Strength, composition, endurance — whatever it actually is for you. Revisit quarterly.', 'Health & Wellness'),
+  ('Set a daily fiber and protein target', 'Simple enough to glance at, not manage like a project.', 'Health & Wellness'),
+  ('Protect the M-Th gym + weekend routine', 'Keep it as the floor — don''t let other pillars erode it.', 'Health & Wellness'),
+  ('Batch-prep or plan meals loosely', 'Around your weekly schedule so fiber/protein goals don''t depend on willpower every night.', 'Health & Wellness'),
+  ('Set a sustainable reading pace', 'A book a month or a quarter — pick what''s actually sustainable, not aspirational.', 'Personal Development'),
+  ('Set a Bible reading/study rhythm', 'One that fits your actual week — consistency over volume.', 'Spirituality'),
+  ('Protect one unscheduled block a week', 'Not assigned to any of the other pillars.', 'Meaning & Purpose'),
+  ('Move out Dec 1 within budget', '~$1,500/mo all-in rent budget.', 'Wealth'),
+  ('Reserve weeknight windows for one project at a time', 'Post-gym (~1-1.5 hrs) goes to light acquisition research or content batching — not both every night.', 'Entrepreneurship'),
+  ('Sunday 30-minute board meeting', 'Review budget, fund balances, and deal/content progress.', 'Wealth')
+on conflict do nothing;

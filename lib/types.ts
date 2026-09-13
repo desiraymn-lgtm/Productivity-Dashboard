@@ -188,6 +188,54 @@ export type GymSection = {
   updated_at: string;
 };
 
+export type VendingSection = {
+  id: number;
+  section_key: string;
+  title: string;
+  subtitle: string | null;
+  content: string;
+  sort_order: number;
+  updated_at: string;
+};
+
+export type KpiMonthlyLog = {
+  id: number;
+  month_key: string;
+  income: string | null;
+  total_saved: string | null;
+  acquisition_fund_balance: string | null;
+  roth_ira_contribution: string | null;
+  credit_utilization_pct: string | null;
+  business_listings_reviewed: number | null;
+  tiktok_posts: number | null;
+  net_worth: string | null;
+  rent_paid: string | null;
+  gym_tennis_sessions: number | null;
+  created_at: string;
+};
+
+export type CoastFiAssumptions = {
+  id: number;
+  current_age: number;
+  target_age: number;
+  base_year: number;
+  annual_return_pct: string;
+  target_annual_spend: string;
+  current_balance: string;
+  annual_contribution_target: string;
+  updated_at: string;
+};
+
+export type CoastFiMonthlyEntry = {
+  id: number;
+  month_key: string;
+  at_match_cap: boolean | null;
+  roth_contribution_made: boolean | null;
+  roth_contribution_amount: string | null;
+  combined_balance: string | null;
+  created_at: string;
+};
+
 export type TravelStatus = 'want' | 'been';
 
 export type TravelSpot = {

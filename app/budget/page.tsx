@@ -6,12 +6,16 @@ import MonthEndTrend from '@/components/MonthEndTrend';
 import SnapshotHistory from '@/components/SnapshotHistory';
 import PaycheckCard from '@/components/PaycheckCard';
 import RecurringBillsCard from '@/components/RecurringBillsCard';
-import type { Account, Paycheck, RecurringBill } from '@/lib/types';
+import CoastFiSummary from '@/components/CoastFiSummary';
+import CoastFiProjectionTable from '@/components/CoastFiProjectionTable';
+import CoastFiMonthlyForm from '@/components/CoastFiMonthlyForm';
+import CoastFiHistory from '@/components/CoastFiHistory';
+import type { Account, Paycheck, RecurringBill, CoastFiAssumptions, CoastFiMonthlyEntry } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
 
 export default async function BudgetPage() {
-  const [accounts, allBalances, historyRows, paychecks, bills] = (await Promise.all([
+  const [accounts, allBalances, historyRows, paychecks, bills, coastFiAssumptionsRows, coastFiMonthlyRows] = (await Promise.all([
     sql`select * from accounts order by category, created_at asc`,
     sql`
       select account_id, snapshot_date::text as snapshot_date, balance::text as balance
@@ -30,13 +34,19 @@ export default async function BudgetPage() {
     `,
     sql`select * from paychecks order by pay_date desc`,
     sql`select * from recurring_bills order by due_day asc nulls last, created_at asc`,
+    sql`select * from coast_fi_assumptions where id = 1`,
+    sql`select * from coast_fi_monthly order by month_key asc`,
   ])) as [
     Account[],
     { account_id: number; snapshot_date: string; balance: string }[],
     { snapshot_date: string; total_assets: number; total_liabilities: number }[],
     Paycheck[],
     RecurringBill[],
+    CoastFiAssumptions[],
+    CoastFiMonthlyEntry[],
   ];
+
+  const coastFiAssumptions = coastFiAssumptionsRows[0];
 
   const latestDate = allBalances.length > 0 ? allBalances[0].snapshot_date : null;
   const latestBalances = new Map<number, string>();
@@ -64,6 +74,16 @@ export default async function BudgetPage() {
       </div>
 
       <AccountsList accounts={accounts} />
+
+      {coastFiAssumptions && (
+        <>
+          <CoastFiSummary assumptions={coastFiAssumptions} />
+          <h2 className="section-title">Age &amp; Year Trajectory</h2>
+          <CoastFiProjectionTable assumptions={coastFiAssumptions} monthlyRows={coastFiMonthlyRows} />
+          <CoastFiMonthlyForm />
+          <CoastFiHistory rows={coastFiMonthlyRows} />
+        </>
+      )}
     </div>
   );
 }
