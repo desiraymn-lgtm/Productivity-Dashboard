@@ -371,225 +371,131 @@ create table if not exists gym_sections (
 );
 
 insert into gym_sections (section_key, title, sort_order) values
-  ('overview', 'Overview & How to Use This Plan', 0),
-  ('monday', 'Monday — Push', 1),
-  ('tuesday', 'Tuesday — Pull', 2),
-  ('wednesday', 'Wednesday — Mat Pilates', 3),
-  ('thursday', 'Thursday — Legs', 4),
-  ('friday', 'Friday — Light Upper Body', 5),
-  ('saturday', 'Saturday — Legs', 6),
-  ('sunday', 'Sunday — Tennis Match', 7),
-  ('progression', '4-Week Progression At a Glance', 8)
+  ('overview', 'Overview', 0),
+  ('monday', 'Monday — Push (Heavy)', 1),
+  ('tuesday', 'Tuesday — Pull + Pull-Up Progression', 2),
+  ('wednesday', 'Wednesday — Rest / Active Recovery', 3),
+  ('thursday', 'Thursday — Legs (Heavy)', 4),
+  ('friday', 'Friday — Mat Pilates', 5),
+  ('saturday', 'Saturday — Legs (Moderate) + Tennis', 6),
+  ('sunday', 'Sunday — Tennis Match', 7)
 on conflict (section_key) do nothing;
 
--- Seeded from the user's "4-Week Strength & Tone-Up Plan" doc. UPDATE (not
--- INSERT) so this is safe to re-run against a database that already has
--- these rows.
+delete from gym_sections where section_key = 'progression';
 
-update gym_sections set subtitle = 'Recomposition • Pull-Up Progression • Tennis-Ready Recovery', content = $$**Starting stats:** 151.2 lb • 26.0% body fat • 111.8 lb lean mass • 5'7"
+-- UPDATE (not INSERT) so this is safe to re-run against a database that
+-- already has these rows.
 
-**Goal:** 140 lb with muscle maintained/gained • Strict pull-up • Visible tone
+update gym_sections set
+  title = 'Overview',
+  subtitle = 'Daily Targets & Weekly Schedule',
+  content = $$**Daily:** 30-min morning walk — 5:30am, or 4:30am on 7:30-meeting days.
+
+**Daily targets:** ~1,800 kcal/day, ~140g protein, 8,000–10,000 steps.
+
+Your Visual Workout Guide has all of this with demo videos too.
 
 ## Weekly Schedule
 
 | Day | Focus |
 |---|---|
-| Monday | Push (chest / shoulders / triceps) |
-| Tuesday | Pull (back / biceps) — pull-up progression |
-| Wednesday | Mat Pilates (core, mobility, recovery) |
+| Monday | Push (heavy) |
+| Tuesday | Pull + pull-up progression |
+| Wednesday | Rest / active recovery |
 | Thursday | Legs (heavy) |
-| Friday | Light upper body → tennis drills (lesson) |
-| Saturday | Legs (moderate) or full rest — go by feel |
-| Sunday | Tennis match (long cardio day) |
-
-## How to Use This Plan
-
-- **"Failure"** = the last rep where your form would break down on the next one. Stop there, not after.
-- Rest 60–90 sec between sets on accessory moves, 2–3 min on heavy compound lifts (squat, deadlift, bench, pull-up work).
-- Weeks 1–2: focus on form and controlled reps. Weeks 3–4: push weight/intensity now that movement patterns are grooved.
-- Progression rule: if you hit the TOP of the rep range for all sets with good form, add weight next session (5 lb upper body, 5–10 lb lower body) or add 1 rep if it's a bodyweight move.
-- Always do 5 minutes of light cardio (bike, brisk walk) before lifting to warm up, then the mobility stretches below before your working sets.
-- Static stretches (holding a stretch) go AFTER training, not before — before training, use the dynamic movements listed.$$
+| Friday | Mat Pilates |
+| Saturday | Legs (moderate) + tennis 10am–1pm |
+| Sunday | Tennis match |$$
 where section_key = 'overview';
 
-update gym_sections set subtitle = 'Chest / Shoulders / Triceps', content = $$## Warm-Up (before lifting)
-
-- Arm circles — 15 sec forward, 15 sec backward
-- Band pull-aparts — 15 reps (activates upper back/shoulders before pressing)
-- Push-up to downward dog — 8 reps, slow
-- Shoulder dislocates with a band or towel — 10 reps
-
-## Workout
-
-| Exercise | Sets | Reps / Target | Notes |
-|---|---|---|---|
-| Flat Barbell or DB Bench Press | 4 | 8–10 | Weeks 1–2: moderate weight, controlled tempo. Weeks 3–4: increase load. |
-| Incline DB Press | 3 | 10–12 | 45° bench; controls upper chest — key for a lifted, toned look |
-| Seated DB Shoulder Press | 3 | 8–10 | Keep core tight, don't arch lower back |
-| Lateral Raises | 3 | 12–15 | Light weight, controlled — this is what builds shoulder "cap" definition |
-| Cable or Machine Chest Fly | 3 | 12–15 | Squeeze at the center, slow eccentric |
-| Tricep Rope Pushdown | 3 | 12–15 | Elbows pinned to your sides |
-| Overhead Tricep Extension | 3 | To failure | Last exercise — go until form breaks |
-
-## Cool-Down (after lifting)
-
-- Doorway chest stretch — 30 sec each side
-- Overhead tricep stretch — 30 sec each arm
-- Cross-body shoulder stretch — 30 sec each side
-- Child's pose — 45 sec (decompresses shoulders/spine)$$
+update gym_sections set
+  title = 'Monday — Push (Heavy)',
+  subtitle = 'Chest / Shoulders / Triceps',
+  content = $$| Exercise | Sets | Reps / Target |
+|---|---|---|
+| Flat Bench Press | 4 | 6–8 |
+| Incline DB Press | 3 | 8–10 |
+| Seated DB Shoulder Press | 3 | 8–10 |
+| Lateral Raises | 3 | 12–15 |
+| Chest Fly | 3 | 12–15 |
+| Tricep Pushdown | 3 | 12–15 |
+| Overhead Extension | 3 | To failure |$$
 where section_key = 'monday';
 
-update gym_sections set subtitle = 'Back / Biceps + Pull-Up Progression', content = $$## Warm-Up (before lifting)
+update gym_sections set
+  title = 'Tuesday — Pull + Pull-Up Progression',
+  subtitle = 'Back / Biceps',
+  content = $$| Exercise | Sets | Reps / Target |
+|---|---|---|
+| Dead Hang | 3 | To failure |
+| Band-Assisted Pull-Ups | 4 | 5–8 |
+| Negative Pull-Ups | 3 | 5 |
+| Lat Pulldown | 3 | 8–10 |
+| Seated Cable Row | 3 | 10–12 |
+| Single-Arm DB Row | 3 | 10 per side |
+| Face Pulls | 3 | 15 |
+| DB Curls | 3 | 10–12 |
+| Hammer Curls | 3 | To failure |
 
-- Cat-cow — 10 reps
-- Scapular pulls on the bar — 10 reps (hang, pull shoulder blades down without bending elbows)
-- Band pull-aparts — 15 reps
-- Light lat pulldown — 15 reps at easy weight
-
-## Pull-Up Progression Block (do this FIRST while fresh)
-
-| Exercise | Sets | Reps / Target | Notes |
-|---|---|---|---|
-| Dead Hang | 3 | To failure (aim 20–40 sec) | Builds grip + shoulder stability — foundation for everything else |
-| Band-Assisted Pull-Up | 4 | 5–8 | Use the lightest band that still lets you complete the reps with control |
-| Negative Pull-Up | 3 | 5 | Jump/step to top position, lower yourself for a slow 3–5 sec count |
-| Lat Pulldown (close grip) | 3 | 8–10 | Mimics the pull-up pattern — build the strength here too |
-
-Progress: every 1–2 weeks, drop to a lighter band once reps feel controlled. By week 4, try 1 unassisted rep at the end of the block.
-
-## Rest of Back / Biceps
-
-| Exercise | Sets | Reps / Target | Notes |
-|---|---|---|---|
-| Seated Cable Row | 3 | 10–12 | Squeeze shoulder blades together at the end |
-| Single-Arm DB Row | 3 | 10–12 per side | Flat back, pull elbow toward hip |
-| Face Pulls | 3 | 15 | Great for posture and shoulder health — don't skip |
-| DB Bicep Curl | 3 | 10–12 | Controlled, no swinging |
-| Hammer Curl | 3 | To failure | Targets forearm/grip — helps pull-up strength too |
-
-## Cool-Down (after lifting)
-
-- Lat stretch (reach overhead and lean side to side) — 30 sec each side
-- Bicep wall stretch — 30 sec each arm
-- Cat-cow — 8 slow reps
-- Child's pose reaching forward — 45 sec$$
+**Finisher:** 10 min incline treadmill walk (12% incline @ 3 mph)$$
 where section_key = 'tuesday';
 
-update gym_sections set subtitle = 'Recovery Day', content = $$Use your gym's free mat Pilates class. This is active recovery between heavy legs and your Friday tennis lesson — it builds the core stability that directly supports pull-ups, squats, and tennis rotation, without adding fatigue.
+update gym_sections set
+  title = 'Wednesday — Rest / Active Recovery',
+  subtitle = 'No Gym',
+  content = $$No gym today.
 
-If no class is running, self-guided 20-minute mat circuit:
-
-| Exercise | Sets | Reps / Target | Notes |
-|---|---|---|---|
-| Pilates Hundred | 1 | 100 pulses (10 sets of 10) | Core activation — keep lower back pressed to mat |
-| Roll-Up | 3 | 8 | Slow and controlled, no momentum |
-| Single-Leg Stretch | 3 | 10 per side | Keep shoulders off the mat, core engaged |
-| Plank | 3 | 30–45 sec hold | Straight line from shoulders to heels |
-| Side Plank | 2 | 20–30 sec per side | Builds obliques — supports tennis rotation |
-| Bird Dog | 3 | 8 per side | Slow, controlled, minimal hip sway |
-
-## Full-Body Mobility (do after Pilates)
-
-- Cat-cow — 10 reps
-- Seated spinal twist — 30 sec each side
-- Hip flexor lunge stretch — 30 sec each side
-- Child's pose — 60 sec$$
+- Morning walk
+- Steps
+- Optional stretching$$
 where section_key = 'wednesday';
 
-update gym_sections set subtitle = 'Heavy', content = $$## Warm-Up (before lifting)
+update gym_sections set
+  title = 'Thursday — Legs (Heavy)',
+  subtitle = null,
+  content = $$| Exercise | Sets | Reps / Target |
+|---|---|---|
+| Squat | 4 | 6–8 |
+| Romanian Deadlift | 4 | 8–10 |
+| Hip Thrust | 3 | 10–12 |
+| Walking Lunges | 3 | 10 per leg |
+| Leg Press or Bulgarian Split Squat | 3 | 10–12 |
+| Standing Calf Raise | 3 | 15–20 |
 
-- Bodyweight squats — 15 reps
-- Walking lunges — 10 per leg
-- Leg swings (front-back and side-side) — 10 each direction, each leg
-- Glute bridges — 15 reps
-
-## Workout
-
-| Exercise | Sets | Reps / Target | Notes |
-|---|---|---|---|
-| Barbell or Goblet Squat | 4 | 8–10 | Weeks 1–2 build form; weeks 3–4 add weight — this is your main strength driver |
-| Romanian Deadlift | 4 | 8–10 | Hinge at hips, slight knee bend, feel it in hamstrings/glutes |
-| Walking Lunges | 3 | 10–12 per leg | Hold dumbbells for added load once bodyweight feels easy |
-| Hip Thrust | 3 | 10–12 | Full glute squeeze at the top — key exercise for the "tone" you want |
-| Leg Press or Bulgarian Split Squat | 3 | 10–12 | Split squat is harder — great once regular lunges feel easy |
-| Standing Calf Raise | 3 | 15–20 | Slow and controlled, full range |
-
-## Cool-Down (after lifting)
-
-- Standing quad stretch — 30 sec each leg
-- Seated hamstring stretch — 30 sec each leg
-- Figure-4 glute stretch — 30 sec each side
-- Deep squat hold (couch stretch alternative) — 45 sec
-- Calf stretch against wall — 30 sec each leg$$
+**Finisher:** 8 rounds — 30 sec bike/rower sprint, 30 sec easy$$
 where section_key = 'thursday';
 
-update gym_sections set subtitle = '+ Tennis Drills', content = $$Since your lesson is drills (not full-intensity match play), light upper volume in the morning won't compromise it — just keep this session lighter than Monday's push day.
-
-| Exercise | Sets | Reps / Target | Notes |
-|---|---|---|---|
-| DB Shoulder Press | 2 | 10–12 | Lighter weight than Monday |
-| Seated Cable Row | 2 | 10–12 | Light-moderate weight |
-| Lateral Raises | 2 | 12–15 | Light weight |
-| Bicep Curl / Tricep Pushdown Superset | 2 rounds | 12 each | Keep this brief — save energy for drills |
-
-## Pre-Tennis Dynamic Warm-Up (before drills)
-
-- Arm circles — 20 sec each direction
-- Walking lunges with a twist — 8 per leg
-- High knees — 20 sec
-- Lateral shuffles — 20 sec each direction
-- Shoulder pass-throughs with a band or towel — 10 reps
-
-## Post-Tennis Cool-Down
-
-- Standing quad stretch — 30 sec each leg
-- Shoulder cross-body stretch — 30 sec each arm
-- Calf stretch — 30 sec each leg
-- Seated forward fold — 45 sec$$
+update gym_sections set
+  title = 'Friday — Mat Pilates',
+  subtitle = null,
+  content = $$| Exercise | Sets | Reps / Target |
+|---|---|---|
+| Pilates Hundred | 1 | 100 pulses |
+| Roll-Up | 3 | 8 |
+| Single-Leg Stretch | 3 | 10 per side |
+| Plank | 3 | 30–45 sec hold |
+| Side Plank | 2 | 20–30 sec per side |
+| Bird Dog | 3 | 8 per side |$$
 where section_key = 'friday';
 
-update gym_sections set subtitle = 'Moderate, or Rest', content = $$This is your flex day. If you're recovered and not sore, do the moderate session below. If you're feeling beat up from the week, take a full rest day instead — recovery is what lets Sunday's match and next week's lifts actually progress.
+update gym_sections set
+  title = 'Saturday — Legs (Moderate) + Tennis',
+  subtitle = null,
+  content = $$| Exercise | Sets | Reps / Target |
+|---|---|---|
+| Goblet Squat | 3 | 12–15 |
+| Glute Bridge | 3 | 15 |
+| Step-Ups | 3 | 10 per leg |
+| Standing Calf Raise | 2 | 15–20 |
 
-| Exercise | Sets | Reps / Target | Notes |
-|---|---|---|---|
-| Goblet Squat | 3 | 12–15 | Lighter than Wednesday — moderate weight, higher reps |
-| Glute Bridge | 3 | 15 | Full squeeze at top |
-| Step-Ups | 3 | 10 per leg | Use a bench or box |
-| Standing Calf Raise | 2 | 15–20 | Optional — skip if legs are fatigued |
-
-## Mobility (do this daily if possible)
-
-- 90/90 hip stretch — 30 sec each side
-- Couch stretch — 30 sec each leg
-- Standing forward fold — 45 sec
-- Foam roll quads, hamstrings, calves — 1 min each area if available$$
+Plus tennis, 10am–1pm.$$
 where section_key = 'saturday';
 
-update gym_sections set subtitle = 'Long Cardio Day', content = $$This is your long cardio day. No additional lifting needed — treat match play as your conditioning work for the week.
-
-## Pre-Match Dynamic Warm-Up
-
-- Jog or brisk walk — 5 min
-- Leg swings (front-back, side-side) — 10 each, each leg
-- Arm circles + shoulder pass-throughs — 20 reps
-- Lateral shuffles and quick feet — 30 sec
-
-## Post-Match Cool-Down (important — full week of training behind you)
-
-- Standing quad stretch — 30 sec each leg
-- Hamstring stretch — 30 sec each leg
-- Hip flexor stretch — 30 sec each side
-- Shoulder and forearm stretch — 30 sec each arm (racquet arm especially)
-- 5–10 min easy walk to bring heart rate down$$
+update gym_sections set
+  title = 'Sunday — Tennis Match',
+  subtitle = 'Cardio Day',
+  content = $$Cardio day — tennis match. Warm up and stretch after.$$
 where section_key = 'sunday';
-
-update gym_sections set content = $$| Week | Lifting Focus | Pull-Up Focus |
-|---|---|---|
-| 1 | Learn form, moderate weight, stop 1–2 reps shy of failure on compound lifts | Dead hangs + heavy band assist — focus on control |
-| 2 | Same weight, push closer to true failure on last set of each move | Slightly lighter band, add negatives |
-| 3 | Increase weight on compound lifts (squat, bench, RDL, row) | Lighter band still, negatives slower (5 sec) |
-| 4 | Heaviest week — push all working sets to true failure on final set | Attempt 1 unassisted rep at the end of the block |$$
-where section_key = 'progression';
 
 -- ---------- 5-Year Plan: restructure to 7 domains + confirmed numbers ----------
 -- UPDATE (not INSERT) so this is safe to re-run against a database that
