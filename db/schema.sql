@@ -751,3 +751,55 @@ insert into goals (title, notes, category) values
   ('Reserve weeknight windows for one project at a time', 'Post-gym (~1-1.5 hrs) goes to light acquisition research or content batching — not both every night.', 'Entrepreneurship'),
   ('Sunday 30-minute board meeting', 'Review budget, fund balances, and deal/content progress.', 'Wealth')
 on conflict do nothing;
+
+-- ---------- Investing: holdings across Brokerage / Roth IRA / Crypto, IPO watchlist, AI analyst briefs ----------
+
+create table if not exists investment_holdings (
+  id serial primary key,
+  account text not null check (account in ('brokerage', 'roth_ira', 'crypto')),
+  symbol text not null,
+  name text,
+  asset_class text not null default 'us_stock' check (asset_class in ('us_stock', 'intl_stock', 'bond', 'reit', 'crypto', 'cash', 'other')),
+  quantity numeric(20, 8) not null default 0,
+  cost_basis numeric(14, 2),
+  manual_price numeric(20, 8),
+  created_at timestamptz not null default now()
+);
+
+create table if not exists ipo_watchlist (
+  id serial primary key,
+  company text not null,
+  sector text,
+  expected_timing text,
+  est_valuation text,
+  status text not null default 'rumored' check (status in ('rumored', 'filed', 'priced', 'public', 'passed')),
+  notes text,
+  created_at timestamptz not null default now()
+);
+
+create table if not exists investing_profile (
+  id integer primary key default 1 check (id = 1),
+  risk_tolerance text not null default 'moderate-aggressive',
+  horizon_years integer not null default 30,
+  monthly_brokerage numeric(10, 2) not null default 0,
+  monthly_roth numeric(10, 2) not null default 625,
+  monthly_crypto numeric(10, 2) not null default 0,
+  target_us_stock integer not null default 65,
+  target_intl_stock integer not null default 15,
+  target_bond integer not null default 5,
+  target_reit integer not null default 5,
+  target_crypto integer not null default 5,
+  target_cash integer not null default 5,
+  notes text
+);
+
+insert into investing_profile (id) values (1) on conflict do nothing;
+
+create table if not exists investing_briefs (
+  id serial primary key,
+  kind text not null check (kind in ('market', 'ipo', 'portfolio', 'ask')),
+  question text,
+  content text not null,
+  sources jsonb not null default '[]'::jsonb,
+  created_at timestamptz not null default now()
+);

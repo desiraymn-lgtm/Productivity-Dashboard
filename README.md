@@ -18,6 +18,11 @@ writes happen through Server Actions, and each page revalidates after every acti
 - **TikTok Plan** (`/tiktok`) — idea bank grouped by content pillar
 - **Business** (`/business`) — acquisition prospects + criteria notes
 - **Budget** (`/budget`) — biweekly paycheck entries (placeholder columns for now)
+- **Investing** (`/investing`) — holdings across Brokerage, Roth IRA and Crypto with live
+  prices, allocation vs. target, a contribution plan that rebalances by buying, an IPO
+  watchlist, and an AI analyst (Claude + web search) for market readings, the IPO
+  pipeline, portfolio reviews and free-form questions. Set `ANTHROPIC_API_KEY` to turn
+  the analyst on; everything else works without it.
 
 ## Stack
 

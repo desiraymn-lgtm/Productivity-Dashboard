@@ -16,6 +16,7 @@ const LINKS = [
   { href: '/business', label: 'Business' },
   { href: '/vending', label: 'Vending' },
   { href: '/budget', label: 'Budget' },
+  { href: '/investing', label: 'Investing' },
   { href: '/rewards', label: 'Rewards' },
 ];
 
